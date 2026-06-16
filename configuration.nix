@@ -14,7 +14,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   
-  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  boot.kernelParams = [
+    "nvidia-drm.modeset=1"
+    "nvidia.NV_alloc_callback_space=1"
+   ];
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -28,6 +31,7 @@
     powerManagement.enable = true;
     powerManagement.finegrained = false;
     open = false;
+    forceFullCompositionPipeline = false;
   };
 
   networking.hostName = "nixos"; # Define your hostname.
