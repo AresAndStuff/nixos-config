@@ -10,6 +10,7 @@
     vscodium
     librewolf
     fastfetch
+    discord
   ];
 
   # Basic configuration for your shell
