@@ -1,14 +1,13 @@
-{ config, pkgs, ... }:
+{ config, pkgs, self, ... }:
 
 {
   imports =
     [
       ./hardware-configuration.nix
-      ./modules/nvidia.nix
-      ./modules/desktop.nix
+      "${self}/modules/nixos/nvidia.nix"
+      "${self}/modules/nixos/desktop.nix"
     ];
 
-  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 

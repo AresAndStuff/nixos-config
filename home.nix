@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./modules/user-packages.nix ];
+  imports = [ ./modules/home/user-packages.nix ];
 
   home.username = "ado";
   home.homeDirectory = "/home/ado";

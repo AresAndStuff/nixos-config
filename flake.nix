@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     
-    # Add Home Manager here
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -21,7 +20,7 @@
       system = "x86_64-linux";
       specialArgs = inputs;
       modules = [
-        ./configuration.nix
+        ./hosts/desktop/configuration.nix
         home-manager.nixosModules.home-manager
         ./secrets/default.nix
         {
