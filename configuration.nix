@@ -19,10 +19,21 @@
     "nvidia.NV_alloc_callback_space=1"
    ];
 
+   boot.loader.systemd-boot.configurationLimit = 4;
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
+
+  nix = {
+  # Aktiviert die wöchentliche automatische Bereinigung
+  gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+};
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
