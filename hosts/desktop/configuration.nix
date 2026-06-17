@@ -50,9 +50,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
     hashedPasswordFile = config.age.secrets."passwort-ado".path;
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -63,7 +60,6 @@
 
   environment.systemPackages = with pkgs; [
     git
-    vim
     wget
     curl
     htop

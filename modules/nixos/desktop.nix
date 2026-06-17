@@ -12,4 +12,13 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  services.xserver.excludePackages = [ pkgs.xterm ];
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    discover
+    elisa
+    kate
+    konsole
+    qrca
+  ];
 }
