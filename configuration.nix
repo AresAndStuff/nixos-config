@@ -86,18 +86,25 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  programs.bash = {
+  enable = true;
+  shellAliases = {
+    vage = "sudo EDITOR=nano nix run github:ryantm/agenix -- -i /etc/ssh/ssh_host_agenix_key -e";
+  };
+};
+
+  users.mutableUsers = false;
   users.users."ado" = {
     isNormalUser = true;
     description = "ado";
     extraGroups = [ "networkmanager" "wheel" ];
+    hashedPasswordFile = config.age.secrets."passwort-ado".path;
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
