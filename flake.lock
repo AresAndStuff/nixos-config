@@ -88,8 +88,8 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1781655306,
-        "narHash": "sha256-gh1vX5kIZFuhMy/di+tw/pkQj61z9qbCUchqS3u3yvQ=",
+        "lastModified": 1781693421,
+        "narHash": "sha256-ZqQf7/T4gUfHF6exz/WCxHRSqm9s0I1iY+Y2JwJroeY=",
         "path": "/home/ado/nix-secrets",
         "type": "path"
       },

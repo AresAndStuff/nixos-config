@@ -18,6 +18,12 @@
     "flakes"
   ];
 
+  fonts.fontconfig = {
+    defaultFonts = {
+      monospace = [ "monospace" ];
+    };
+  };
+
   nix = {
     gc = {
       automatic = true;
@@ -35,26 +41,25 @@
 
   services.printing.enable = true;
 
-  programs.bash = {
-  enable = true;
-  shellAliases = {
-    vage = "sudo EDITOR=nano nix run github:ryantm/agenix -- -i /etc/ssh/ssh_host_agenix_key -e";
-  };
-};
+  programs.zsh.enable = true;
 
   users.mutableUsers = false;
   users.users."ado" = {
     isNormalUser = true;
     description = "ado";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
     hashedPasswordFile = config.age.secrets."passwort-ado".path;
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
     ];
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.hack
+  ];
 
   environment.systemPackages = with pkgs; [
     git
