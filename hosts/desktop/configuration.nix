@@ -63,6 +63,7 @@
     wget
     curl
     htop
+    gnome-text-editor
   ];
 
   system.stateVersion = "26.05";
