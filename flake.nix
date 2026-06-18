@@ -9,6 +9,14 @@
 
     agenix.url = "github:ryantm/agenix";
 
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+
     mysecrets = { 
       url = "path:/home/ado/nix-secrets"; 
       flake = false; 
@@ -26,6 +34,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = inputs;
           home-manager.users.ado = import ./home.nix;
         }
       ];
