@@ -10,6 +10,13 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "ntfs" ];
+
+  fileSystems."/run/media/ado/BCEA64D5EA648E08" = {
+    device = "/dev/disk/by-uuid/BCEA64D5EA648E08";
+    fsType = "ntfs-3g";
+    options = [ "nofail" "uid=1000" "gid=100" "umask=000" "exec" "user" "rw" ];
+  };
 
   boot.loader.systemd-boot.configurationLimit = 4;
 
@@ -20,7 +27,7 @@
 
   fonts.fontconfig = {
     defaultFonts = {
-      monospace = [ "monospace" ];
+      monospace = [ "Hack Nerd Font Mono" ];
     };
   };
 

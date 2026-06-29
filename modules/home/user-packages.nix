@@ -5,5 +5,7 @@
     librewolf
     fastfetch
     discord
+    onlyoffice-desktopeditors
+    anki
   ];
 }
