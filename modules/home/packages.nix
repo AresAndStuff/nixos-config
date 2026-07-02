@@ -7,5 +7,6 @@
     discord
     onlyoffice-desktopeditors
     anki
+    hyprpaper
   ];
 }

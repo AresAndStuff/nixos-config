@@ -1,11 +1,13 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, plasma-manager, ... }: {
+  imports = [ plasma-manager.homeModules.plasma-manager ];
+
   programs.plasma = {
     enable = true;
     
     # Appearance
     workspace = {
       lookAndFeel = "org.kde.breezedark.desktop";
-      wallpaper = ../../assets/wallpaper.png;
+      wallpaper = ../../../assets/wallpaper.png;
     };
 
     # Shortcuts / Hotkeys

@@ -3,7 +3,6 @@
   programs.bat.enable = true;         # Modern 'cat'
   programs.fd.enable = true;          # Modern 'find'
   programs.ripgrep.enable = true;     # Modern 'grep'
-
   programs.tmux = {
     enable = true;
     extraConfig = ''
@@ -21,7 +20,7 @@
       set -g window-status-format " #[fg=gray]#I:#W "
       set -g window-status-current-format " #[fg=cyan,bold]#I:#W "
 
-      # --- PURE MOUSE SCROLLING WITHOUT MENUS ---
+      # --- MOUSE SCROLLING WITHOUT MENUS ---
       # 1. Enable mouse mode so tmux captures wheel events
       set -g mouse on
 
@@ -111,11 +110,6 @@
       # Ctrl + Left/Right arrow to jump whole words
       bindkey '^[[1;5D' backward-word
       bindkey '^[[1;5C' forward-word
-
-      # Auto-start tmux for interactive shells
-      if [[ -z "$TMUX" && -o interactive ]]; then
-          exec tmux
-      fi
     '';
   };
 

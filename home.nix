@@ -1,18 +1,12 @@
-{ config, pkgs, plasma-manager, ... }:
+{ ... }:
 
 {
-  imports = [
-    ./modules/home/user-packages.nix
-    ./modules/home/cli.nix
-    ./modules/home/plasma.nix
-    plasma-manager.homeModules.plasma-manager
-    ];
+  imports = [ ./modules/home ];
 
   home.username = "ado";
   home.homeDirectory = "/home/ado";
+  home.stateVersion = "26.05";
 
   fonts.fontconfig.enable = true;
-
-  home.stateVersion = "26.05";
   programs.home-manager.enable = true;
 }
