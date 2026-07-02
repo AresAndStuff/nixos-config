@@ -7,7 +7,12 @@
     enable = true;
     settings = {
       preload = [ "${../../../../assets/wallpaper.png}" ];
-      wallpaper = [ ",${../../../../assets/wallpaper.png}" ];
+      wallpaper = [ 
+        {
+          monitor = "";
+          path = "${../../../../assets/wallpaper.png}";
+        }
+       ];
     };
   };
 }
