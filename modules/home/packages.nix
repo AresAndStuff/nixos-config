@@ -8,10 +8,4 @@
     anki
     hyprpaper
   ];
-  programs.librewolf = {
-    enable = true;
-    settings = {
-      "widget.wayland.fractional-scale.enabled" = false;
-    };
-  };
 }
