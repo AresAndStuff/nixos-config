@@ -14,4 +14,9 @@
   };
 
   services.xserver.excludePackages = [ pkgs.xterm ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 }

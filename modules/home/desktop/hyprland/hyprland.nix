@@ -17,7 +17,7 @@
 
       bind = [
         "SUPER, T, exec, alacritty"
-        "SUPER, Space, exec, wofi --show drun"
+        "SUPER, Space, exec, pkill wofi || wofi --show drun"
         "SUPER, Q, killactive,"
         "SUPER, F, togglefloating,"
         "SUPER, M, exit,"

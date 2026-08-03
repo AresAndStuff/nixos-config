@@ -14,7 +14,10 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Fonts
-  fonts.packages = with pkgs; [ nerd-fonts.hack ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.hack
+    nerd-fonts.symbols-only
+    ];
   fonts.fontconfig.defaultFonts.monospace = [ "Hack Nerd Font Mono" ];
 
   services.printing.enable = true;
