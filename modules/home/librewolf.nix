@@ -40,7 +40,8 @@ in
           ublock-origin
           bitwarden
           darkreader
-          sponsorblock
+          libredirect
+          auto-tab-discard
           # weitere: vimium, ublacklist, istilldontcareaboutcookies, ...
         ];
       };

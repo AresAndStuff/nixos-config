@@ -16,14 +16,21 @@
   # Fonts
   fonts.packages = with pkgs; [
     nerd-fonts.hack
+    nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only
     ];
-  fonts.fontconfig.defaultFonts.monospace = [ "Hack Nerd Font Mono" ];
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      monospace = [ "Hack Nerd Font Mono" ];
+    };
+  };
 
   services.printing.enable = true;
 
   # System-side zsh (per-user config lives in home/cli.nix)
   programs.zsh.enable = true;
+  programs.nix-ld.enable = true;
 
   environment.systemPackages = with pkgs; [
     git

@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   wayland.windowManager.hyprland = {
@@ -8,7 +8,25 @@
     configType = "hyprlang";
 
     settings = {
-      exec-once = [ "waybar" "mako" "hyprpaper" ];
+      xwayland = {
+        force_zero_scaling = true;
+      };
+
+      exec-once = [ "waybar" "swaync" "hyprpaper" ];
+
+      general = {
+        gaps_in = 3;
+        gaps_out = 5;
+      };
+
+      dwindle = {
+        preserve_split = true;
+      };
+
+      decoration = {
+        active_opacity = 1.0;
+        inactive_opacity = 0.8; # Werte zwischen 0.0 und 1.0
+      };
 
       input = {
         kb_layout = "us";
@@ -21,6 +39,7 @@
         "SUPER, Q, killactive,"
         "SUPER, F, togglefloating,"
         "SUPER, M, exit,"
+        "SUPER, V, layoutmsg, togglesplit" 
 
         "SUPER, left, movefocus, l"
         "SUPER, right, movefocus, r"
@@ -38,6 +57,9 @@
         "SUPER SHIFT, 3, movetoworkspace, 3"
         "SUPER SHIFT, 4, movetoworkspace, 4"
         "SUPER SHIFT, 5, movetoworkspace, 5"
+
+        "SUPER, Tab, cyclenext,"
+        "SUPER, Tab, bringactivetotop,"
       ];
 
       bindm = [
