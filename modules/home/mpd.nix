@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 
 {
   services.mpd = {
@@ -17,8 +17,5 @@
     '';
   };
 
-  # MPRIS bridge → your swaync "mpris" widget and waybar will see the track
   services.mpd-mpris.enable = true;
-
-  home.packages = [ pkgs.rmpc ];
 }

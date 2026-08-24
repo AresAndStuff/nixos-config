@@ -142,14 +142,13 @@ in
 {
   home.packages = [
     pomodoro
-    pkgs.libnotify
     pkgs.pulseaudio
-    pkgs.sound-theme-freedesktop
     pkgs.util-linux
   ];
 
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
     settings = {
       mainBar = {
         layer = "top";

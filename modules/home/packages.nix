@@ -26,15 +26,9 @@ in
     onlyoffice-desktopeditors
     libreoffice
     anki
-    hyprpaper
     libnotify
     sound-theme-freedesktop
-    wlogout
-    hyprlock
-    swaynotificationcenter
     vlc-scaled
-    rmpc
     ungoogled-chromium
-    playerctl
   ];
 }

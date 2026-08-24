@@ -51,8 +51,6 @@ in
         force_zero_scaling = true;
       };
 
-      exec-once = [ "waybar" "swaync" "hyprpaper" ];
-
       general = {
         gaps_in = 3;
         gaps_out = 5;

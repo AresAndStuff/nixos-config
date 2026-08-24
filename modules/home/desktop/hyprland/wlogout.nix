@@ -1,6 +1,8 @@
-{ theme, assets, ... }:
+{ theme, assets, pkgs, ... }:
 
 {
+  home.packages = [ pkgs.wlogout ];
+
   xdg.configFile."wlogout/config".text = ''
     [main]
     buttons-per-row=4
