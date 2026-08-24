@@ -1,150 +1,24 @@
 { pkgs, theme, ... }:
 let
-  alarmSound = "${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga";
-
-  pomodoro = pkgs.writeShellScriptBin "pomodoro" ''
-    STATE_DIR="$XDG_RUNTIME_DIR/pomodoro"
-    STATE_FILE="$STATE_DIR/state"
-    LOCK_FILE="$STATE_DIR/lock"
-    PGID_FILE="$STATE_DIR/alarm.pgid"
-    DEFAULT=1500
-    ALARM_SOUND="${alarmSound}"
-
-    [ -e "$STATE_DIR" ] && [ ! -d "$STATE_DIR" ] && rm -f "$STATE_DIR"
-    mkdir -p "$STATE_DIR"
-
-    exec 9>"$LOCK_FILE"
-    flock -x 9
-
-    [ -f "$STATE_FILE" ] || echo "paused $DEFAULT" > "$STATE_FILE"
-
-    read_state() {
-      read STATUS VAL < "$STATE_FILE"
-    }
-
-    save() {
-      echo "$STATUS $VAL" > "$STATE_FILE"
-    }
-
-    alarm_alive() {
-      [ -f "$PGID_FILE" ] || return 1
-      PGID=$(cat "$PGID_FILE" 2>/dev/null)
-      [ -n "$PGID" ] || return 1
-      kill -0 -- "-$PGID" 2>/dev/null
-    }
-
-    stop_alarm() {
-      if [ -f "$PGID_FILE" ]; then
-        PGID=$(cat "$PGID_FILE" 2>/dev/null)
-        if [ -n "$PGID" ]; then
-          kill -TERM -- "-$PGID" 2>/dev/null
-          sleep 0.1
-          kill -KILL -- "-$PGID" 2>/dev/null
-        fi
-        rm -f "$PGID_FILE"
-      fi
-      pkill -9 -f "paplay.*alarm-clock-elapsed" 2>/dev/null
-      true
-    }
-
-    start_alarm() {
-      if alarm_alive; then
-        return
-      fi
-      notify-send "Timer finished" "Click to stop alarm" >/dev/null 2>&1
-      
-      setsid bash -c '
-        exec 9>&-
-        while true; do
-          paplay "$1" >/dev/null 2>&1
-          sleep 1
-        done
-      ' _ "$ALARM_SOUND" 9>&- </dev/null >/dev/null 2>&1 &
-      DISOWN_PID=$!
-      echo "$DISOWN_PID" > "$PGID_FILE"
-      disown
-    }
-
-    case "$1" in
-      toggle)
-        read_state
-        NOW=$(date +%s)
-        case "$STATUS" in
-          running)
-            VAL=$((VAL - NOW))
-            [ "$VAL" -lt 0 ] && VAL=0
-            STATUS=paused
-            ;;
-          alarm)
-            stop_alarm
-            STATUS=paused
-            VAL=$DEFAULT
-            ;;
-          *)
-            VAL=$((NOW + VAL))
-            STATUS=running
-            ;;
-        esac
-        save
-        ;;
-      reset)
-        stop_alarm
-        STATUS=paused
-        VAL=$DEFAULT
-        save
-        ;;
-      add)
-        read_state
-        VAL=$((VAL + 60))
-        save
-        ;;
-      subtract)
-        read_state
-        VAL=$((VAL - 60))
-        if [ "$STATUS" = "paused" ] && [ "$VAL" -lt 60 ]; then
-          VAL=60
-        fi
-        save
-        ;;
-      *)
-        read_state
-        NOW=$(date +%s)
-
-        if [ "$STATUS" = "running" ]; then
-          REMAIN=$((VAL - NOW))
-          if [ "$REMAIN" -le 0 ]; then
-            STATUS=alarm
-            VAL=0
-            save
-            start_alarm
-          fi
-        fi
-
-        if [ "$STATUS" = "alarm" ]; then
-          echo "{\"text\":\"󰹱 ALARM\",\"class\":\"finished\"}"
-          exit
-        fi
-
-        if [ "$STATUS" = "running" ]; then
-          REMAIN=$((VAL - NOW))
-        else
-          REMAIN=$VAL
-        fi
-
-        MIN=$((REMAIN/60))
-        SEC=$((REMAIN%60))
-        
-        printf "{\"text\":\"󰀠 %02d:%02d\"}\n" "$MIN" "$SEC"
-        ;;
-    esac
-  '';
+  pomodoro = pkgs.writeShellApplication {
+    name = "pomodoro";
+    runtimeInputs = with pkgs; [
+      coreutils
+      libnotify
+      procps
+      pulseaudio
+      util-linux
+      bash
+    ];
+    runtimeEnv = {
+      ALARM_SOUND =
+        "${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga";
+    };
+    text = builtins.readFile ./scripts/pomodoro.sh;
+  };
 in
 {
-  home.packages = [
-    pomodoro
-    pkgs.pulseaudio
-    pkgs.util-linux
-  ];
+  home.packages = [ pomodoro ];
 
   programs.waybar = {
     enable = true;

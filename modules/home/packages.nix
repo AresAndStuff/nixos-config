@@ -27,7 +27,6 @@ in
     libreoffice
     anki
     libnotify
-    sound-theme-freedesktop
     vlc-scaled
     ungoogled-chromium
   ];
