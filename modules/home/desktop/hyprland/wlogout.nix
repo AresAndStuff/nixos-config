@@ -1,4 +1,4 @@
-{ ... }:
+{ theme, ... }:
 
 {
   xdg.configFile."wlogout/config".text = ''
@@ -27,11 +27,11 @@
 
   xdg.configFile."wlogout/style.css".text = ''
     window {
-      background-color: alpha(#181616, 0.9);
+      background-color: alpha(${theme.bg}, 0.9);
     }
 
     button {
-      color: #c5c9c5;
+      color: ${theme.text};
       background-color: transparent;
       box-shadow: none;
       background-repeat: no-repeat;
@@ -43,8 +43,8 @@
 
     button:hover,
     button:focus {
-      color: #c5c9c5;
-      background-color: #e6c384;
+      color: ${theme.bg};
+      background-color: ${theme.accent};
       background-size: 50%;
     }
 

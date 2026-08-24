@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, theme, ... }:
 let
   alarmSound = "${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga";
 
@@ -229,12 +229,12 @@ in
         };
       };
     };
-
+    
     style = ''
       * {
         border: none;
         border-radius: 0;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "${theme.font}", monospace;
         font-size: 15px;
         min-height: 0;
       }
@@ -243,27 +243,23 @@ in
         background: transparent;
       }
 
-      #custom-host, #memory, #cpu, #custom-gpu, #workspaces, #custom-pomodoro, #taskbar, #pulseaudio, #battery, #tray, #clock, #custom-power {
-        background-color: #222222;
+      #memory, #cpu, #custom-gpu, #workspaces, #custom-pomodoro,
+      #taskbar, #pulseaudio, #tray, #clock, #custom-power {
+        background-color: ${theme.surface};
         border-radius: 4px;
         padding: 2px 10px;
         margin: 4px 3px 6px;
-        color: #dddddd;
-      }
-
-      #custom-host {
-        font-weight: bold;
-        color: #ffffff;
+        color: ${theme.text};
       }
 
       #workspaces button {
         padding: 0 4px;
         background: transparent;
-        color: #555555;
+        color: ${theme.muted};
       }
 
       #workspaces button.active {
-        color: #a89984;
+        color: ${theme.accent};
       }
 
       #taskbar button {
@@ -272,16 +268,12 @@ in
       }
 
       #taskbar button.active {
-        background: rgba(255, 255, 255, 0.15);
+        background: ${theme.surfaceAlt};
         border-radius: 4px;
       }
 
-      #battery {
-        color: #89b482;
-      }
-
       #custom-power {
-        color: #ff5555;
+        color: ${theme.red};
       }
 
       #custom-pomodoro.finished {
@@ -290,8 +282,8 @@ in
 
       @keyframes pomodoro-blink {
         50% {
-          background-color: #ff5555;
-          color: #000000;
+          background-color: ${theme.red};
+          color: ${theme.bg};
         }
       }
     '';

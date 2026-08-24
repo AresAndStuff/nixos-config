@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./theme.nix
     ./cli.nix
     ./packages.nix
     ./librewolf.nix
