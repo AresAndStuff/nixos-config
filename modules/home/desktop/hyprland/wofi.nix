@@ -6,22 +6,21 @@
 
     settings = {
       # Window
-      width = 600;
-      height = 400;
+      width = 550;
+      height = 350;
       location = "center";
       layer = "overlay";
       term = "alacritty";
 
-      # Behavior
       show = "drun";
       prompt = "Search...";
       insensitive = true;
-      matching = "fuzzy";
+      matching = "contains";
       sort_order = "alphabetical";
       allow_images = true;
-      image_size = 32;
+      image_size = 24;
       allow_markup = true;
-      no_actions = true;   # hide the "run / run in terminal" context menu
+      no_actions = true;
       hide_scroll = true;
       gtk_dark = true;
     };
@@ -29,28 +28,28 @@
     style = ''
       * {
         font-family: "JetBrains Mono", monospace;
-        font-size: 14px;
+        font-size: 13px;
       }
 
       window {
         margin: 0;
-        padding: 4px;
-        border: 2px solid #a89984;
-        border-radius: 12px;
-        background-color: #1a1a1a;
+        padding: 10px;
+        border: 1px solid rgba(168, 153, 132, 0.4);
+        border-radius: 16px;
+        background-color: rgba(26, 26, 26, 0.95);
       }
 
       #input {
-        margin: 8px;
-        padding: 8px 12px;
+        margin: 5px 5px 15px 5px;
+        padding: 10px 14px;
         border: none;
-        border-radius: 6px;
-        color: #dddddd;
-        background-color: #222222;
+        border-radius: 8px;
+        color: #ebdbb2;
+        background-color: #282828;
       }
 
       #inner-box {
-        margin: 0 8px 8px 8px;
+        margin: 0;
         border: none;
         background-color: transparent;
       }
@@ -68,22 +67,24 @@
       }
 
       #img {
-        margin-right: 10px;
+        margin-right: 12px;
       }
 
       #text {
-        margin: 2px 0;
+        margin: 4px 0;
         border: none;
-        color: #dddddd;
+        color: #a89984;
       }
 
       #entry {
-        padding: 6px 8px;
-        border-radius: 6px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background-color: transparent;
       }
 
       #entry:selected {
         background-color: #a89984;
+        border-radius: 8px;
       }
 
       #entry:selected #text {

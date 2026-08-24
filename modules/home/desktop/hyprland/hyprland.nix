@@ -1,5 +1,44 @@
 { pkgs, ... }:
 
+let
+  playpause = pkgs.writeShellScriptBin "playpause" ''
+    PCTL=${pkgs.playerctl}/bin/playerctl
+    STATE_DIR="$XDG_RUNTIME_DIR/playpause"
+    STATE_FILE="$STATE_DIR/paused"
+
+    mkdir -p "$STATE_DIR"
+
+    exec 9>"$STATE_DIR/lock"
+    flock -x 9
+
+    players=$($PCTL -l 2>/dev/null)
+
+    playing=""
+    for p in $players; do
+      if [ "$($PCTL -p "$p" status 2>/dev/null)" = "Playing" ]; then
+        playing="$playing$p
+    "
+      fi
+    done
+
+    if [ -n "$playing" ]; then
+      # something is playing -> remember who, then pause them all
+      printf '%s' "$playing" > "$STATE_FILE"
+      for p in $playing; do
+        $PCTL -p "$p" pause 2>/dev/null
+      done
+    elif [ -s "$STATE_FILE" ]; then
+      # nothing playing -> resume exactly what we paused last time
+      for p in $(cat "$STATE_FILE"); do
+        $PCTL -p "$p" play 2>/dev/null
+      done
+      : > "$STATE_FILE"
+    else
+      # no memory (e.g. paused by hand) -> just start something sensible
+      $PCTL --player=mpd,vlc,%any play 2>/dev/null
+    fi
+  '';
+in
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -35,7 +74,7 @@
 
       bind = [
         "SUPER, T, exec, alacritty"
-        "SUPER, Space, exec, pkill wofi || wofi --show drun"
+        "SUPER, Space, exec, pkill wofi || wofi"
         "SUPER, Q, killactive,"
         "SUPER, F, togglefloating,"
         "SUPER, M, exit,"
@@ -60,11 +99,23 @@
 
         "SUPER, Tab, cyclenext,"
         "SUPER, Tab, bringactivetotop,"
+
+        "SUPER, S, exec, grim -g \"$(slurp)\" - | tee ~/Pictures/Screenshots/$(date +%F_%H-%M-%S).png | wl-copy && notify-send 'Region captured' -t 1000"
+        "SUPER SHIFT, S, exec, grim - | tee ~/Pictures/Screenshots/$(date +%F_%H-%M-%S).png | wl-copy && notify-send 'Screen captured' -t 1000"
       ];
 
       bindm = [
         "SUPER, mouse:272, movewindow"
         "SUPER, mouse:273, resizewindow"
+      ];
+      
+      bindel = [
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+      ];
+
+      bindl = [
+        ", XF86AudioMute, exec, ${playpause}/bin/playpause"
       ];
     };
   };

@@ -18,6 +18,10 @@
     nerd-fonts.hack
     nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only
+    corefonts
+    vista-fonts
+    liberation_ttf
+    dejavu_fonts
     ];
   fonts.fontconfig = {
     enable = true;
