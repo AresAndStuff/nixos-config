@@ -1,4 +1,4 @@
-{ theme, ... }:
+{ theme, assets, ... }:
 
 {
   programs.hyprlock = {
@@ -10,7 +10,7 @@
 
       background = {
         monitor = "";
-        path = "${../../../../assets/wallpaper.png}";
+        path = "${assets}/wallpaper.png";
         blur_passes = 2;
         blur_size = 7;
         color = theme.withAlpha theme.bg "ff";

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ assets, pkgs, ... }:
 
 {
   home.packages = [ pkgs.hyprpaper ];
@@ -7,11 +7,11 @@
     enable = true;
     settings = {
       splash = false;
-      preload = [ "${../../../../assets/wallpaper.png}" ];
+      preload = [ "${assets}/wallpaper.png" ];
       wallpaper = [ 
         {
           monitor = "";
-          path = "${../../../../assets/wallpaper.png}";
+          path = "${assets}/wallpaper.png";
         }
        ];
     };

@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ self, lib, ... }:
 
 let
   colors = {
@@ -14,9 +14,12 @@ let
   };
 in
 {
-  _module.args.theme = colors // {
-    font = "JetBrains Mono";
+  _module.args = {
+    theme = colors // {
+      font = "JetBrains Mono";
+      withAlpha = color: aa: "rgba(${lib.removePrefix "#" color}${aa})";
+    };
 
-    withAlpha = color: aa: "rgba(${lib.removePrefix "#" color}${aa})";
+    assets = "${self}/assets";
   };
 }

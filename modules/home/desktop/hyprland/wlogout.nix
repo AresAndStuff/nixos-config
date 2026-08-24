@@ -1,4 +1,4 @@
-{ theme, ... }:
+{ theme, assets, ... }:
 
 {
   xdg.configFile."wlogout/config".text = ''
@@ -48,20 +48,9 @@
       background-size: 50%;
     }
 
-    #suspend {
-      background-image: image(url("/home/ado/nixos-config/assets/suspend.png"));
-    }
-
-    #shutdown {
-      background-image: image(url("/home/ado/nixos-config/assets/shutdown.png"));
-    }
-
-    #logout {
-      background-image: image(url("/home/ado/nixos-config/assets/logout.png"));
-    }
-
-    #reboot {
-      background-image: image(url("/home/ado/nixos-config/assets/restart.png"));
-    }
+    #suspend  { background-image: image(url("${assets}/suspend.png")); }
+    #shutdown { background-image: image(url("${assets}/shutdown.png")); }
+    #logout   { background-image: image(url("${assets}/logout.png")); }
+    #reboot   { background-image: image(url("${assets}/restart.png")); }
   '';
 }
