@@ -1,6 +1,8 @@
-{ ... }:
+{ theme, assets, pkgs, ... }:
 
 {
+  home.packages = [ pkgs.wlogout ];
+
   xdg.configFile."wlogout/config".text = ''
     [main]
     buttons-per-row=4
@@ -27,11 +29,11 @@
 
   xdg.configFile."wlogout/style.css".text = ''
     window {
-      background-color: alpha(#181616, 0.9);
+      background-color: alpha(${theme.bg}, 0.9);
     }
 
     button {
-      color: #c5c9c5;
+      color: ${theme.text};
       background-color: transparent;
       box-shadow: none;
       background-repeat: no-repeat;
@@ -43,25 +45,14 @@
 
     button:hover,
     button:focus {
-      color: #c5c9c5;
-      background-color: #e6c384;
+      color: ${theme.bg};
+      background-color: ${theme.accent};
       background-size: 50%;
     }
 
-    #suspend {
-      background-image: image(url("/home/ado/nixos-config/assets/suspend.png"));
-    }
-
-    #shutdown {
-      background-image: image(url("/home/ado/nixos-config/assets/shutdown.png"));
-    }
-
-    #logout {
-      background-image: image(url("/home/ado/nixos-config/assets/logout.png"));
-    }
-
-    #reboot {
-      background-image: image(url("/home/ado/nixos-config/assets/restart.png"));
-    }
+    #suspend  { background-image: image(url("${assets}/suspend.png")); }
+    #shutdown { background-image: image(url("${assets}/shutdown.png")); }
+    #logout   { background-image: image(url("${assets}/logout.png")); }
+    #reboot   { background-image: image(url("${assets}/restart.png")); }
   '';
 }

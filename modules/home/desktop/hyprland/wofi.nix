@@ -1,4 +1,4 @@
-{ ... }:
+{ theme, ... }:
 
 {
   programs.wofi = {
@@ -27,16 +27,16 @@
 
     style = ''
       * {
-        font-family: "JetBrains Mono", monospace;
+        font-family: "${theme.font}", monospace;
         font-size: 13px;
       }
 
       window {
         margin: 0;
         padding: 10px;
-        border: 1px solid rgba(168, 153, 132, 0.4);
+        border: 1px solid alpha(${theme.accent}, 0.4);
         border-radius: 16px;
-        background-color: rgba(26, 26, 26, 0.95);
+        background-color: alpha(${theme.bg}, 0.95);
       }
 
       #input {
@@ -44,17 +44,11 @@
         padding: 10px 14px;
         border: none;
         border-radius: 8px;
-        color: #ebdbb2;
-        background-color: #282828;
+        color: ${theme.text};
+        background-color: ${theme.surfaceAlt};
       }
 
-      #inner-box {
-        margin: 0;
-        border: none;
-        background-color: transparent;
-      }
-
-      #outer-box {
+      #inner-box, #outer-box {
         margin: 0;
         padding: 0;
         border: none;
@@ -73,7 +67,7 @@
       #text {
         margin: 4px 0;
         border: none;
-        color: #a89984;
+        color: ${theme.accent};
       }
 
       #entry {
@@ -83,12 +77,12 @@
       }
 
       #entry:selected {
-        background-color: #a89984;
+        background-color: ${theme.accent};
         border-radius: 8px;
       }
 
       #entry:selected #text {
-        color: #1a1a1a;
+        color: ${theme.bg};
         font-weight: bold;
       }
     '';

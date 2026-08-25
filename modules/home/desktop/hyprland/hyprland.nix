@@ -1,43 +1,11 @@
 { pkgs, ... }:
 
 let
-  playpause = pkgs.writeShellScriptBin "playpause" ''
-    PCTL=${pkgs.playerctl}/bin/playerctl
-    STATE_DIR="$XDG_RUNTIME_DIR/playpause"
-    STATE_FILE="$STATE_DIR/paused"
-
-    mkdir -p "$STATE_DIR"
-
-    exec 9>"$STATE_DIR/lock"
-    flock -x 9
-
-    players=$($PCTL -l 2>/dev/null)
-
-    playing=""
-    for p in $players; do
-      if [ "$($PCTL -p "$p" status 2>/dev/null)" = "Playing" ]; then
-        playing="$playing$p
-    "
-      fi
-    done
-
-    if [ -n "$playing" ]; then
-      # something is playing -> remember who, then pause them all
-      printf '%s' "$playing" > "$STATE_FILE"
-      for p in $playing; do
-        $PCTL -p "$p" pause 2>/dev/null
-      done
-    elif [ -s "$STATE_FILE" ]; then
-      # nothing playing -> resume exactly what we paused last time
-      for p in $(cat "$STATE_FILE"); do
-        $PCTL -p "$p" play 2>/dev/null
-      done
-      : > "$STATE_FILE"
-    else
-      # no memory (e.g. paused by hand) -> just start something sensible
-      $PCTL --player=mpd,vlc,%any play 2>/dev/null
-    fi
-  '';
+  playpause = pkgs.writeShellApplication {
+    name = "playpause";
+    runtimeInputs = with pkgs; [ coreutils playerctl util-linux ];
+    text = builtins.readFile ./scripts/playpause.sh;
+  };
 in
 {
   wayland.windowManager.hyprland = {
@@ -50,8 +18,6 @@ in
       xwayland = {
         force_zero_scaling = true;
       };
-
-      exec-once = [ "waybar" "swaync" "hyprpaper" ];
 
       general = {
         gaps_in = 3;

@@ -28,7 +28,7 @@
     };
 
     mysecrets = {
-      url = "path:/home/ado/nix-secrets";
+      url = "git+file:///home/ado/nix-secrets";
       flake = false;
     };
   };

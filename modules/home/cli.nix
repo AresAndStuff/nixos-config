@@ -65,6 +65,7 @@
   home.sessionVariables = {           # Environment Variables
     PAGER = "bat";
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+    FLAKE = "${config.home.homeDirectory}/nixos-config";
   };
 
   programs.zsh = {
@@ -91,8 +92,8 @@
       ll = "eza -lh";
       la = "eza -lah";
       tree = "eza --tree";
-      nrs = "sudo nixos-rebuild switch --flake /home/ado/nixos-config#nixos";
-      nrt = "sudo nixos-rebuild test --flake /home/ado/nixos-config#nixos";
+      nrs = "sudo nixos-rebuild switch --flake $FLAKE#nixos";
+      nrt = "sudo nixos-rebuild test --flake $FLAKE#nixos";
     };
 
     initContent = ''

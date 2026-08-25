@@ -1,3 +1,5 @@
+{ theme, ... }:
+
 {
   services.swaync = {
     enable = true;
@@ -37,20 +39,19 @@
     };
 
     style = ''
-      /* palette pulled straight from waybar */
-      @define-color bg         #1a1a1a;
-      @define-color surface    #222222;
-      @define-color surface-alt #2c2c2c;
-      @define-color text       #dddddd;
-      @define-color subtext    #999999;
-      @define-color muted      #555555;
-      @define-color accent     #a89984;
-      @define-color red        #ff5555;
+      @define-color bg          ${theme.bg};
+      @define-color surface     ${theme.surface};
+      @define-color surface-alt ${theme.surfaceAlt};
+      @define-color text        ${theme.text};
+      @define-color subtext     ${theme.subtext};
+      @define-color muted       ${theme.muted};
+      @define-color accent      ${theme.accent};
+      @define-color red         ${theme.red};
 
       * {
         border:        none;
         border-radius: 0;
-        font-family:   "JetBrains Mono", monospace;
+        font-family:   "${theme.font}", monospace;
         font-size:     15px;
         min-height:    0;
       }

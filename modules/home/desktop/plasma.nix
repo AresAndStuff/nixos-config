@@ -1,4 +1,4 @@
-{ config, pkgs, plasma-manager, ... }: {
+{ config, pkgs, plasma-manager, assets, ... }: {
   imports = [ plasma-manager.homeModules.plasma-manager ];
 
   programs.plasma = {
@@ -7,7 +7,7 @@
     # Appearance
     workspace = {
       lookAndFeel = "org.kde.breezedark.desktop";
-      wallpaper = ../../../assets/wallpaper.png;
+      wallpaper = "${assets}/wallpaper.png";
     };
 
     # Shortcuts / Hotkeys

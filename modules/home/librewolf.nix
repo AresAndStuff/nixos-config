@@ -1,4 +1,4 @@
-{ pkgs, firefox-addons, ... }:
+{ pkgs, firefox-addons, theme, ... }:
 
 let
   addons = firefox-addons.packages.${pkgs.system};
@@ -78,8 +78,8 @@ in
       userChrome = ''
         :root {
           color-scheme: dark;
-          --pfl-bg: #17161d;
-          --pfl-fg: #eceaf4;
+          --pfl-bg: ${theme.bg};
+          --pfl-fg: ${theme.text};
           --pfl-1: color-mix(in srgb, var(--pfl-fg) 8%, transparent);
           --pfl-2: color-mix(in srgb, var(--pfl-fg) 14%, transparent);
           --pfl-3: color-mix(in srgb, var(--pfl-fg) 40%, transparent);
@@ -267,7 +267,7 @@ in
       userContent = ''
         @-moz-document url("about:blank"), url("about:newtab"),
                        url("about:home"), url("about:privatebrowsing") {
-          :root { background-color: #17161d !important; }
+          :root { background-color: ${theme.bg} !important; }
         }
       '';
     };
