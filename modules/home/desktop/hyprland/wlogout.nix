@@ -1,33 +1,26 @@
 { theme, assets, pkgs, ... }:
 
-{
-  home.packages = [ pkgs.wlogout ];
-
-  xdg.configFile."wlogout/config".text = ''
-    [main]
-    buttons-per-row=4
-  '';
-
-  xdg.configFile."wlogout/layout".text = ''
+let
+  layout = pkgs.writeText "wlogout-layout" ''
+    {
+      "label": "logout",
+      "action": "hyprlock"
+    }
     {
       "label": "suspend",
       "action": "systemctl suspend"
-    }
-    {
-      "label": "shutdown",
-      "action": "systemctl poweroff"
     }
     {
       "label": "reboot",
       "action": "systemctl reboot"
     }
     {
-      "label": "logout",
-      "action": "hyprlock"
+      "label": "shutdown",
+      "action": "systemctl poweroff"
     }
   '';
 
-  xdg.configFile."wlogout/style.css".text = ''
+  style = pkgs.writeText "wlogout-style.css" ''
     window {
       background-color: alpha(${theme.bg}, 0.9);
     }
@@ -41,18 +34,33 @@
       background-size: 30%;
       border-radius: 80px;
       margin: 120px 10px;
+      transition: background-color 100ms ease, background-size 100ms ease;
     }
 
-    button:hover,
     button:focus {
+      outline: 2px solid ${theme.accent};
+      outline-offset: -40px;
+      background-color: transparent;
+      background-size: 30%;
+    }
+
+    button:hover {
       color: ${theme.bg};
       background-color: ${theme.accent};
       background-size: 50%;
+      outline: none;
     }
 
-    #suspend  { background-image: image(url("${assets}/suspend.png")); }
-    #shutdown { background-image: image(url("${assets}/shutdown.png")); }
     #logout   { background-image: image(url("${assets}/logout.png")); }
+    #suspend  { background-image: image(url("${assets}/suspend.png")); }
     #reboot   { background-image: image(url("${assets}/restart.png")); }
+    #shutdown { background-image: image(url("${assets}/shutdown.png")); }
   '';
+
+  wlogout-menu = pkgs.writeShellScriptBin "wlogout-menu" ''
+    exec ${pkgs.wlogout}/bin/wlogout -b 4 -l ${layout} -C ${style} "$@"
+  '';
+in
+{
+  home.packages = [ pkgs.wlogout wlogout-menu ];
 }

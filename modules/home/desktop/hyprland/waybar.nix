@@ -98,7 +98,7 @@ in
 
         "custom/power" = {
           format = "⏻";
-          on-click = "wlogout --buttons-per-row 4";
+          on-click = "pkill wlogout || wlogout-menu";
         };
       };
     };

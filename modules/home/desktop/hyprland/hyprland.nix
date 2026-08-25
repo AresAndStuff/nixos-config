@@ -44,7 +44,8 @@ in
         "SUPER, Q, killactive,"
         "SUPER, F, togglefloating,"
         "SUPER, M, exit,"
-        "SUPER, V, layoutmsg, togglesplit" 
+        "SUPER, V, layoutmsg, togglesplit"
+        "SUPER, L, exec, pkill wlogout || wlogout-menu"
 
         "SUPER, left, movefocus, l"
         "SUPER, right, movefocus, r"
