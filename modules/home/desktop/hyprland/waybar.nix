@@ -32,7 +32,7 @@ in
 
         modules-left = [ "memory" "cpu" "custom/gpu" "hyprland/workspaces" "custom/pomodoro" ];
         modules-center = [ "wlr/taskbar" ];
-        modules-right = [ "pulseaudio" "tray" "clock" "custom/power" ];
+        modules-right = [ "bluetooth" "pulseaudio" "tray" "clock" "custom/power" ];
 
         "memory" = {
           format = "{:>3}% ";
@@ -85,6 +85,19 @@ in
           format = " {volume}%";
         };
 
+        "bluetooth" = {
+          format = "󰂯";
+          format-disabled = "󰂲";
+          format-off = "󰂲";
+          format-connected = "󰂱 {device_alias}";
+          format-connected-battery = "󰂱 {device_alias} {device_battery_percentage}%";
+          tooltip-format = "{controller_alias}\n{num_connections} connected";
+          tooltip-format-connected = "{device_enumerate}";
+          tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+          max-length = 25;
+          on-click = "blueman-manager";
+        };
+
         "tray" = {
           icon-size = 14;
           spacing = 6;
@@ -117,7 +130,7 @@ in
       }
 
       #memory, #cpu, #custom-gpu, #workspaces, #custom-pomodoro,
-      #taskbar, #pulseaudio, #tray, #clock, #custom-power {
+      #taskbar, #bluetooth, #pulseaudio, #tray, #clock, #custom-power {
         background-color: ${theme.surface};
         border-radius: 4px;
         padding: 2px 10px;

@@ -6,5 +6,6 @@
     ./nvidia.nix
     ./desktop
     ./gaming.nix
+    ./bluetooth.nix
   ];
 }
