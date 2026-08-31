@@ -22,6 +22,7 @@ in
       general = {
         gaps_in = 3;
         gaps_out = 5;
+        allow_tearing = true;
       };
 
       dwindle = {
@@ -85,5 +86,10 @@ in
         ", XF86AudioMute, exec, ${playpause}/bin/playpause"
       ];
     };
+
+    extraConfig = ''
+      windowrule = match:class ^(steam)$, match:title ^$, stay_focused on
+      windowrule = match:class ^(steam_app_\d+)$, no_blur on
+    '';
   };
 }

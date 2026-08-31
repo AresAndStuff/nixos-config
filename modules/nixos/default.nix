@@ -5,5 +5,6 @@
     ./core.nix
     ./nvidia.nix
     ./desktop
+    ./gaming.nix
   ];
 }
