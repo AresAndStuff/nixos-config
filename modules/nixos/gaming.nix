@@ -27,7 +27,7 @@
     protonup-qt   # optional, for pulling GE versions Nixpkgs hasn't updated to yet
 
     lutris
-    wineWowPackages.stable
+    wineWow64Packages.stable
     winetricks
     umu-launcher             # Lutris uses to run Proton
   ];

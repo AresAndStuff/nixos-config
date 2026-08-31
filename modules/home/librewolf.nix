@@ -1,7 +1,7 @@
 { pkgs, firefox-addons, theme, ... }:
 
 let
-  addons = firefox-addons.packages.${pkgs.system};
+  addons = firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   programs.librewolf = {
