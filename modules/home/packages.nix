@@ -23,11 +23,11 @@ in
     vscodium
     fastfetch
     discord
-    onlyoffice-desktopeditors
     libreoffice
     anki
     libnotify
     vlc-scaled
     ungoogled-chromium
+    pdfarranger
   ];
 }
