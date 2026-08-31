@@ -4,9 +4,6 @@
   programs.ssh = {
     enable = true;
 
-    # Der implizite "Host *"-Block von Home Manager ist deprecated.
-    # Seine Werte entsprachen ohnehin OpenSSHs eigenen Defaults, also
-    # ersatzlos abschalten statt sie hier zu duplizieren.
     enableDefaultConfig = false;
 
     settings = {
