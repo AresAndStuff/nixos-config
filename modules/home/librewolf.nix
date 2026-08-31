@@ -51,9 +51,9 @@ in
         "browser.uidensity" = 1;
         "browser.tabs.inTitlebar" = 1; # CSD behalten, Buttons killt das CSS
 
-        # Browser Toolbox (Ctrl+Alt+Shift+I) falls du Selektoren brauchst:
-        # "devtools.chrome.enabled" = true;
-        # "devtools.debugger.remote-enabled" = true;
+        # Browser Toolbox (Ctrl+Alt+Shift+I)
+        "devtools.chrome.enabled" = true;
+        "devtools.debugger.remote-enabled" = true;
       };
 
       extensions = {
@@ -138,22 +138,16 @@ in
         }
         #nav-bar .toolbarbutton-text { display: none !important; }
 
-        /* Ctrl+Alt+Z: Sidebar weg, nichts soll stehen bleiben.
-           [hidden] matcht jeden Wert, "true" braucht keine Extrazeile. */
-        #sidebar-main[hidden] { display: none !important; }
-        #sidebar-main[hidden] ~ #sidebar-launcher-splitter {
+        /* Ctrl+Alt+Z: Sidebar weg, nichts soll stehen bleiben. */
+        :is(#sidebar-main, #sidebar-wrapper, #sidebar-container):is([hidden], [collapsed], [aria-hidden="true"]) {
+          display: none !important;
+        }
+        :is(#sidebar-main, #sidebar-wrapper, #sidebar-container):is([hidden], [collapsed], [aria-hidden="true"]) ~ #sidebar-launcher-splitter {
           display: none !important;
         }
 
-        /* Die Toolbar liegt ÜBER dem Inhalt statt ihn nach unten zu
-           schieben - dadurch kostet der Hover-Bereich keine Layouthöhe
-           und es bleibt kein Streifen stehen. Trefferfläche ist die
-           Toolbar selbst, kein Pseudoelement: ::before an einer XUL-
-           <toolbox> wird nicht zuverlässig gerendert.
-           Steht bewusst AUSSERHALB des :not(:hover)-Blocks, sonst
-           würde die Fläche beim Hovern verschwinden und der Hover
-           sofort wieder abreißen. */
-        #main-window:has(#sidebar-main[hidden]) #navigator-toolbox {
+        /* Toolbar schwebend NUR WENN Sidebar ausgeblendet ist */
+        #main-window:has(:is(#sidebar-main, #sidebar-wrapper, #sidebar-container):is([hidden], [collapsed], [aria-hidden="true"])) #navigator-toolbox {
           position: fixed !important;
           top: 0 !important;
           inset-inline: 0 !important;
@@ -161,17 +155,12 @@ in
         }
 
         /* ausgeklappt: etwas Luft nach oben */
-        #main-window:has(#sidebar-main[hidden]) #navigator-toolbox:is(:hover, :focus-within) {
+        #main-window:has(:is(#sidebar-main, #sidebar-wrapper, #sidebar-container):is([hidden], [collapsed], [aria-hidden="true"])) #navigator-toolbox:is(:hover, :focus-within) {
           padding-top: var(--pfl-nav-top) !important;
         }
 
-        /* Eingeklappt = Sidebar weg UND kein Hover UND kein Fokus.
-           Alles hängt an diesem einen Selektor. Hover oder Ctrl+L
-           legen den Normalzustand damit einfach wieder frei, statt
-           ihn Regel für Regel zurücksetzen zu müssen.
-           :has() darf im Baum vorwärts schauen - nur deshalb kann die
-           Toolbar überhaupt auf die Sidebar reagieren. */
-        #main-window:has(#sidebar-main[hidden])
+        /* Eingeklappt = Sidebar weg UND kein Hover UND kein Fokus. */
+        #main-window:has(:is(#sidebar-main, #sidebar-wrapper, #sidebar-container):is([hidden], [collapsed], [aria-hidden="true"]))
         #navigator-toolbox:not(:hover):not(:focus-within) {
           height: var(--pfl-strip) !important;
           min-height: 0 !important;
@@ -191,8 +180,7 @@ in
             visibility: hidden !important;
           }
 
-          /* Urlbar schwebt als Pille über dem Inhalt. position:fixed
-             holt sie aus der auf 0 geklappten Toolbar raus. */
+          /* Urlbar schwebt als Pille über dem Inhalt */
           & #urlbar-container {
             position: fixed !important;
             top: var(--pfl-url-top) !important;
@@ -250,7 +238,12 @@ in
         }
         #urlbar[focused] > #urlbar-background { border-color: var(--pfl-3) !important; }
         #urlbar:not([focused]) #page-action-buttons { display: none !important; }
-        #urlbar[breakout][breakout-extend] { width: 100% !important; }
+        #urlbar[breakout][breakout-extend] {
+          width: 75% !important;
+          left: 0 !important;
+          right: 0 !important;
+          margin-inline: auto !important;
+        }
 
         menupopup, panel, .panel-arrowcontent {
           --panel-background: var(--pfl-bg) !important;
