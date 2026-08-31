@@ -32,7 +32,7 @@ in
 
         modules-left = [ "memory" "cpu" "custom/gpu" "hyprland/workspaces" "custom/pomodoro" ];
         modules-center = [ "wlr/taskbar" ];
-        modules-right = [ "bluetooth" "pulseaudio" "tray" "clock" "custom/power" ];
+        modules-right = [ "mpd" "bluetooth" "pulseaudio" "tray" "clock" "custom/power" ];
 
         "memory" = {
           format = "{:>3}% ";
@@ -79,6 +79,29 @@ in
           tooltip-format = "{title}";
           on-click = "activate";
           on-click-middle = "close"; 
+        };
+
+        "mpd" = {
+          format = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} · {title}  {elapsedTime:%M:%S}";
+          format-paused = "{stateIcon} {artist} · {title}";
+          format-stopped = "󰝛  idle";
+          format-disconnected = "󰝛  offline";
+          state-icons = {
+            playing = "󰐊";
+            paused = "󰏤";
+          };
+          max-length = 45;
+          interval = 2;
+          server = "127.0.0.1";
+          port = 6600;
+          tooltip-format = "{title}\n{artist} — {album}\n{elapsedTime:%M:%S} / {totalTime:%M:%S}  ({songPosition}/{queueLength})";
+          tooltip-format-disconnected = "MPD DOWN";
+          
+          on-click = "${pkgs.playerctl}/bin/playerctl -p mpd play-pause";
+          on-click-right = "${pkgs.playerctl}/bin/playerctl -p mpd next";
+          on-click-middle = "alacritty -e rmpc";
+          on-scroll-up = "${pkgs.playerctl}/bin/playerctl -p mpd volume 0.05+";
+          on-scroll-down = "${pkgs.playerctl}/bin/playerctl -p mpd volume 0.05-";
         };
 
         "pulseaudio" = {
@@ -130,12 +153,16 @@ in
       }
 
       #memory, #cpu, #custom-gpu, #workspaces, #custom-pomodoro,
-      #taskbar, #bluetooth, #pulseaudio, #tray, #clock, #custom-power {
+      #taskbar, #mpd, #bluetooth, #pulseaudio, #tray, #clock, #custom-power {
         background-color: ${theme.surface};
         border-radius: 4px;
         padding: 2px 10px;
         margin: 4px 3px 6px;
         color: ${theme.text};
+      }
+
+      #mpd.paused {
+        color: ${theme.subtext};
       }
 
       #workspaces button {

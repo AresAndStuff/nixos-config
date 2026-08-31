@@ -84,6 +84,9 @@ in
 
       bindl = [
         ", XF86AudioMute, exec, ${playpause}/bin/playpause"
+        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl -p mpd play-pause"
+        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl -p mpd next"
+        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl -p mpd previous"
       ];
     };
 

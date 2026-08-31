@@ -10,6 +10,9 @@
       port = 6600;
     };
     extraConfig = ''
+      auto_update "yes"
+      bind_to_address "${config.xdg.dataHome}/mpd/socket"
+
       audio_output {
         type "pipewire"
         name "PipeWire"
