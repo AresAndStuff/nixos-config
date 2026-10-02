@@ -12,8 +12,4 @@
       FastConnectable = true;
     };
   };
-
-  # blueman-manager (GUI) + blueman-mechanism (system dbus service).
-  # Plasma uses its own bluedevil applet; see home/desktop for the split.
-  services.blueman.enable = true;
 }

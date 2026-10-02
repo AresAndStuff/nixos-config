@@ -1,7 +1,12 @@
 { ... }:
 
 {
-  imports = [ ./modules/home ];
+  imports = [
+    ../../modules/home
+    ../../modules/home/mpd.nix
+    ../../modules/home/rmpc.nix
+    ../../modules/home/desktop
+  ];
 
   home.username = "ado";
   home.homeDirectory = "/home/ado";
