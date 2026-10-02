@@ -18,7 +18,7 @@ let
   };
 in
 {
-  home.packages = [ pomodoro ];
+  home.packages = [ pomodoro pkgs.networkmanagerapplet];
 
   programs.waybar = {
     enable = true;

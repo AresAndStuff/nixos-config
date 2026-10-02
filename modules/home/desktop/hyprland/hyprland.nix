@@ -15,6 +15,8 @@ in
     configType = "hyprlang";
 
     settings = {
+      exec-once = [ "nm-applet --indicator" ];
+      
       xwayland = {
         force_zero_scaling = true;
       };
