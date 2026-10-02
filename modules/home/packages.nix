@@ -29,5 +29,7 @@ in
     vlc-scaled
     ungoogled-chromium
     pdfarranger
+    scrcpy
+    android-tools
   ];
 }

@@ -3,40 +3,6 @@
   programs.bat.enable = true;         # Modern 'cat'
   programs.fd.enable = true;          # Modern 'find'
   programs.ripgrep.enable = true;     # Modern 'grep'
-  programs.tmux = {
-    enable = true;
-    extraConfig = ''
-      # Use Alt instead of Ctrl to avoid shell conflicts
-      bind-key -n M-t new-window -c "#{pane_current_path}"   # Alt + T = New Tab
-      bind-key -n M-w kill-window                             # Alt + W = Close Tab
-      bind-key -n M-Left previous-window                      # Alt + Left = Prev Tab
-      bind-key -n M-Right next-window                         # Alt + Right = Next Tab
-
-      # Clean, minimal status bar at the bottom
-      set -g status-position top
-      set -g status-style bg=default,fg=white
-      set -g status-left ""
-      set -g status-right ""
-      set -g window-status-format " #[fg=gray]#I:#W "
-      set -g window-status-current-format " #[fg=cyan,bold]#I:#W "
-
-      # --- MOUSE SCROLLING WITHOUT MENUS ---
-      # 1. Enable mouse mode so tmux captures wheel events
-      set -g mouse on
-
-      # 2. Prevent right-click menus from appearing
-      unbind -n MouseDown3Pane
-      unbind -n MouseDown3Status
-      unbind -n MouseDown3StatusLeft
-
-      # 3. Emulate normal terminal scrolling
-      # Scroll up to enter copy mode and scroll up
-      bind-key -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'copy-mode -et='"
-      
-      # Scroll down to scroll, and automatically exit copy mode if you hit the bottom
-      bind-key -n WheelDownPane select-pane -t= \; send-keys -M
-    '';
-  };
 
   programs.starship = {               # Modern prompt
     enable = true;

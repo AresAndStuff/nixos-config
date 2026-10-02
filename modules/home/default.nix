@@ -10,6 +10,7 @@
     ./packages.nix
     ./librewolf.nix
     ./mpd.nix
+    ./tmux.nix
     ./desktop
   ];
 }

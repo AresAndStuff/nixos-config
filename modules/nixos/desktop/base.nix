@@ -17,6 +17,12 @@
 
   services.xserver.excludePackages = [ pkgs.xterm ];
 
+  qt = {
+    enable = true;
+    platformTheme = "kde";
+    style = "breeze";
+  };
+
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-hyprland ];
@@ -30,7 +36,7 @@
     "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
 
   environment.systemPackages = with pkgs.kdePackages; [
-    qtsvg        # svg icon support — otherwise blank icons outside Plasma
-    kio-extras   # sftp, fish, thumbnailers
+    qtsvg
+    kio-extras
   ];
 }
