@@ -92,8 +92,8 @@
       ll = "eza -lh";
       la = "eza -lah";
       tree = "eza --tree";
-      nrs = "sudo nixos-rebuild switch --flake $FLAKE#nixos";
-      nrt = "sudo nixos-rebuild test --flake $FLAKE#nixos";
+      nrs = "sudo nixos-rebuild switch --flake $FLAKE";
+      nrt = "sudo nixos-rebuild test --flake $FLAKE";
     };
 
     initContent = ''

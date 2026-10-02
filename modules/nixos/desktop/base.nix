@@ -4,6 +4,7 @@
   services.xserver.enable = true;
   services.xserver.xkb = { layout = "us"; variant = ""; };
   services.displayManager.sddm.enable = true;
+  services.blueman.enable = true;
 
   security.rtkit.enable = true;
   security.pam.services.hyprlock = {};
