@@ -14,14 +14,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
-      };
-    };
-
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,8 +27,11 @@
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
+      assets = ./assets;
+      args = inputs // { inherit assets; };
+
       mkHost = host: nixpkgs.lib.nixosSystem {
-        specialArgs = inputs;
+        specialArgs = args;
         modules = [
           ./hosts/${host}/configuration.nix
 
@@ -45,7 +40,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = inputs;
+              extraSpecialArgs = args;
               backupFileExtension = "bak";
               users.ado = import ./hosts/${host}/home.nix;
             };
@@ -55,8 +50,8 @@
     in
     {
       nixosConfigurations = {
-        nixos = mkHost "desktop";
-        laptop = mkHost "laptop";
+        nix-desktop = mkHost "desktop";
+        nix-laptop = mkHost "laptop";
       };
     };
 }

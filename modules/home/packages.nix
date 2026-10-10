@@ -4,7 +4,7 @@ let
     name = "vlc-scaled";
     paths = [ pkgs.vlc ];
     nativeBuildInputs = [ pkgs.makeWrapper ];
-        postBuild = ''
+    postBuild = ''
       wrapProgram $out/bin/vlc --set QT_SCALE_FACTOR 2
 
       for f in $out/share/applications/*.desktop; do
@@ -17,15 +17,11 @@ let
 in
 {
   home.packages = with pkgs; [
-    wl-clipboard
-    slurp
-    grim
     vscodium
     fastfetch
     discord
     libreoffice
     anki
-    libnotify
     vlc-scaled
     ungoogled-chromium
     pdfarranger

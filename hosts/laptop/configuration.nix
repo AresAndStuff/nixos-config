@@ -7,7 +7,7 @@
     ../../modules/nixos/gnome.nix
   ];
 
-  networking.hostName = "laptop";
+  networking.hostName = "nix-laptop";
 
   # Kein agenix auf dem Laptop. Nach dem ersten Boot: passwd ado
   users.mutableUsers = true;

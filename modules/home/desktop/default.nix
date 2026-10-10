@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ./plasma.nix
     ./gtk.nix
+    ./apps.nix
     ./hyprland
   ];
 }
