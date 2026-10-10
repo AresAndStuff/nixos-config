@@ -1,10 +1,11 @@
 { config, pkgs, ... }: {
-  programs.zoxide.enable = true;      # Smarter 'cd'
-  programs.bat.enable = true;         # Modern 'cat'
-  programs.fd.enable = true;          # Modern 'find'
-  programs.ripgrep.enable = true;     # Modern 'grep'
+  programs.zoxide.enable = true; # Smarter 'cd'
+  programs.bat.enable = true; # Modern 'cat'
+  programs.fd.enable = true; # Modern 'find'
+  programs.ripgrep.enable = true; # Modern 'grep'
 
-  programs.starship = {               # Modern prompt
+  programs.starship = {
+    # Modern prompt
     enable = true;
     enableZshIntegration = true;
     settings = {
@@ -13,7 +14,8 @@
     };
   };
 
-  programs.fzf = {                    # Fuzzy finder
+  programs.fzf = {
+    # Fuzzy finder
     enable = true;
     enableZshIntegration = true;
     # pressing Ctrl+T adds live 'bat' preview pane on the right
@@ -22,13 +24,15 @@
     ];
   };
 
-  programs.eza = {                    # Modern 'ls'
+  programs.eza = {
+    # Modern 'ls'
     enable = true;
     icons = "auto";
     git = true;
   };
 
-  home.sessionVariables = {           # Environment Variables
+  home.sessionVariables = {
+    # Environment Variables
     PAGER = "bat";
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
     FLAKE = "${config.home.homeDirectory}/nixos-config";
@@ -39,7 +43,7 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    autocd = true; 
+    autocd = true;
 
     history = {
       size = 100000;
@@ -86,7 +90,10 @@
       window = {
         opacity = 0.80;
         blur = true;
-        padding = { x = 12; y = 12; };
+        padding = {
+          x = 12;
+          y = 12;
+        };
         decorations = "None";
       };
       font = {
@@ -97,7 +104,11 @@
       };
       keyboard = {
         bindings = [
-          { key = "N"; mods = "Alt"; action = "SpawnNewInstance"; }
+          {
+            key = "N";
+            mods = "Alt";
+            action = "SpawnNewInstance";
+          }
         ];
       };
     };

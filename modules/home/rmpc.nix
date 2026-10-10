@@ -1,11 +1,20 @@
-{ pkgs, config, theme, ... }:
+{
+  pkgs,
+  config,
+  theme,
+  ...
+}:
 
 let
   ytCache = "${config.home.homeDirectory}/Music/discover";
 
   discover = pkgs.writeShellApplication {
     name = "rmpc-discover";
-    runtimeInputs = [ pkgs.yt-dlp pkgs.fzf pkgs.rmpc ];
+    runtimeInputs = [
+      pkgs.yt-dlp
+      pkgs.fzf
+      pkgs.rmpc
+    ];
     text = ''
       set -euo pipefail
 

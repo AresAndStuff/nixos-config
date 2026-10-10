@@ -24,11 +24,11 @@
 
   environment.systemPackages = with pkgs; [
     mangohud
-    protonup-qt   # optional, for pulling GE versions Nixpkgs hasn't updated to yet
+    protonup-qt # optional, for pulling GE versions Nixpkgs hasn't updated to yet
 
     lutris
     wineWow64Packages.stable
     winetricks
-    umu-launcher             # Lutris uses to run Proton
+    umu-launcher # Lutris uses to run Proton
   ];
 }

@@ -16,7 +16,11 @@
   fileSystems."/mnt/games" = {
     device = "/dev/disk/by-uuid/1804337c-9f08-4423-8a3b-be8fb63b2870";
     fsType = "ext4";
-    options = [ "nofail" "noatime" "x-gvfs-show" ];
+    options = [
+      "nofail"
+      "noatime"
+      "x-gvfs-show"
+    ];
   };
 
   users.mutableUsers = false;

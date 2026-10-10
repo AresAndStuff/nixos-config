@@ -1,4 +1,9 @@
-{ pkgs, firefox-addons, theme, ... }:
+{
+  pkgs,
+  firefox-addons,
+  theme,
+  ...
+}:
 
 let
   addons = firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
@@ -242,7 +247,7 @@ in
         name = "Profile 1";
         path = "YNN5QMIH.Profile 1";
         # Change this hex color code to whatever distinct background you want for Profile 1!
-        userChrome = mkUserChrome "#444e6a"; 
+        userChrome = mkUserChrome "#444e6a";
         userContent = mkUserContent "#444e6a";
       };
     };

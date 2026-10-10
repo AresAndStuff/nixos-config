@@ -25,11 +25,11 @@
         fade_on_empty = false;
         rounding = 12;
 
-        outer_color  = theme.withAlpha theme.accent  "cc";
-        inner_color  = theme.withAlpha theme.surface "e6";
-        font_color   = theme.withAlpha theme.text    "ff";
-        check_color  = theme.withAlpha theme.green   "ff";
-        fail_color   = theme.withAlpha theme.red     "ff";
+        outer_color = theme.withAlpha theme.accent "cc";
+        inner_color = theme.withAlpha theme.surface "e6";
+        font_color = theme.withAlpha theme.text "ff";
+        check_color = theme.withAlpha theme.green "ff";
+        fail_color = theme.withAlpha theme.red "ff";
 
         font_family = theme.font;
         placeholder_text = "Password...";

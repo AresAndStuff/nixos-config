@@ -19,9 +19,9 @@
     defaultApplications = {
       "inode/directory" = "thunar.desktop";
       "application/pdf" = "org.pwmt.zathura.desktop";
-      "image/png"       = "org.gnome.Loupe.desktop";
-      "image/jpeg"      = "org.gnome.Loupe.desktop";
-      "image/webp"      = "org.gnome.Loupe.desktop";
+      "image/png" = "org.gnome.Loupe.desktop";
+      "image/jpeg" = "org.gnome.Loupe.desktop";
+      "image/webp" = "org.gnome.Loupe.desktop";
       "text/plain" = "org.gnome.TextEditor.desktop";
     };
   };

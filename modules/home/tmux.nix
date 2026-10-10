@@ -6,7 +6,14 @@ let
   # One session per project, no manual `tmux new -s` bookkeeping.
   sessionizer = pkgs.writeShellApplication {
     name = "tmux-sessionizer";
-    runtimeInputs = with pkgs; [ tmux fzf fd zoxide gawk coreutils ];
+    runtimeInputs = with pkgs; [
+      tmux
+      fzf
+      fd
+      zoxide
+      gawk
+      coreutils
+    ];
     text = ''
       if [ $# -eq 1 ]; then
         selected="$1"
@@ -46,14 +53,14 @@ in
   programs.tmux = {
     enable = true;
 
-    prefix = "C-Space";      # C-b is backward-char in zsh; C-Space is free
-    baseIndex = 1;           # windows start at 1, lines up with Alt+1..9
-    escapeTime = 0;          # kill the 500ms lag after Esc
-    historyLimit = 50000;    # default 2000 is nothing
+    prefix = "C-Space"; # C-b is backward-char in zsh; C-Space is free
+    baseIndex = 1; # windows start at 1, lines up with Alt+1..9
+    escapeTime = 0; # kill the 500ms lag after Esc
+    historyLimit = 50000; # default 2000 is nothing
     keyMode = "vi";
     mouse = true;
     terminal = "tmux-256color";
-    newSession = true;       # `tmux` / `tmux attach` always lands somewhere
+    newSession = true; # `tmux` / `tmux attach` always lands somewhere
 
     plugins = with pkgs.tmuxPlugins; [
       {

@@ -1,4 +1,9 @@
-{ theme, assets, pkgs, ... }:
+{
+  theme,
+  assets,
+  pkgs,
+  ...
+}:
 
 let
   layout = pkgs.writeText "wlogout-layout" ''
@@ -62,5 +67,8 @@ let
   '';
 in
 {
-  home.packages = [ pkgs.wlogout wlogout-menu ];
+  home.packages = [
+    pkgs.wlogout
+    wlogout-menu
+  ];
 }

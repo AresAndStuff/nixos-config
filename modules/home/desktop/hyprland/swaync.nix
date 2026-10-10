@@ -5,19 +5,19 @@
     enable = true;
 
     settings = {
-      positionX                    = "right";
-      positionY                    = "top";
-      layer                        = "overlay";
-      control-center-margin-top    = 12;
+      positionX = "right";
+      positionY = "top";
+      layer = "overlay";
+      control-center-margin-top = 12;
       control-center-margin-bottom = 12;
-      control-center-margin-right  = 12;
-      control-center-margin-left   = 12;
-      control-center-width         = 400;
-      notification-window-width    = 400;
-      transition-time              = 200;
-      hide-on-clear                = false;
-      hide-on-action                = true;
-      keyboard-shortcuts            = true;
+      control-center-margin-right = 12;
+      control-center-margin-left = 12;
+      control-center-width = 400;
+      notification-window-width = 400;
+      transition-time = 200;
+      hide-on-clear = false;
+      hide-on-action = true;
+      keyboard-shortcuts = true;
 
       widgets = [
         "title"
@@ -29,11 +29,11 @@
 
       widget-config = {
         title = {
-          text             = "Notifications";
+          text = "Notifications";
           clear-all-button = true;
-          button-text      = "Clear";
+          button-text = "Clear";
         };
-        dnd.text     = "Do Not Disturb";
+        dnd.text = "Do Not Disturb";
         volume.label = " ";
       };
     };

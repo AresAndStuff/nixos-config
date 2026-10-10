@@ -1,4 +1,10 @@
-{ config, pkgs, agenix, mysecrets, ... }:
+{
+  config,
+  pkgs,
+  agenix,
+  mysecrets,
+  ...
+}:
 
 {
   imports = [
@@ -12,7 +18,7 @@
   age.secrets = {
     "passwort-ado" = {
       file = "${mysecrets}/passwort-ado.age";
-      owner = "root"; 
+      owner = "root";
     };
   };
 }

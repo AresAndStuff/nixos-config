@@ -6,12 +6,12 @@
     settings = {
       splash = false;
       preload = [ "${assets}/wallpaper.png" ];
-      wallpaper = [ 
+      wallpaper = [
         {
           monitor = "";
           path = "${assets}/wallpaper.png";
         }
-       ];
+      ];
     };
   };
 }

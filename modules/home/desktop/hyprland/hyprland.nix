@@ -3,7 +3,11 @@
 let
   playpause = pkgs.writeShellApplication {
     name = "playpause";
-    runtimeInputs = with pkgs; [ coreutils playerctl util-linux ];
+    runtimeInputs = with pkgs; [
+      coreutils
+      playerctl
+      util-linux
+    ];
     text = builtins.readFile ./scripts/playpause.sh;
   };
 in
@@ -16,7 +20,7 @@ in
 
     settings = {
       exec-once = [ "nm-applet --indicator" ];
-      
+
       xwayland = {
         force_zero_scaling = true;
       };
@@ -78,7 +82,7 @@ in
         "SUPER, mouse:272, movewindow"
         "SUPER, mouse:273, resizewindow"
       ];
-      
+
       bindel = [
         ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"

@@ -27,5 +27,7 @@ in
     pdfarranger
     scrcpy
     android-tools
+    nixfmt
+    nixfmt-tree
   ];
 }

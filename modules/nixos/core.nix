@@ -3,7 +3,10 @@
 {
   imports = [ ./bluetooth.nix ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
@@ -42,7 +45,10 @@
   users.users.ado = {
     isNormalUser = true;
     description = "ado";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     shell = pkgs.zsh;
   };
 
@@ -50,6 +56,6 @@
     git
     wget
     curl
-    htop
+    btop
   ];
 }

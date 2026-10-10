@@ -21,10 +21,15 @@
     # bun
 
     # Rust
-    rustc cargo clippy rustfmt rust-analyzer
+    rustc
+    cargo
+    clippy
+    rustfmt
+    rust-analyzer
 
     # Go
-    go gopls
+    go
+    gopls
 
     # shell
     shellcheck

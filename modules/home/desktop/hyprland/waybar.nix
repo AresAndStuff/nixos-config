@@ -11,14 +11,16 @@ let
       bash
     ];
     runtimeEnv = {
-      ALARM_SOUND =
-        "${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga";
+      ALARM_SOUND = "${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga";
     };
     text = builtins.readFile ./scripts/pomodoro.sh;
   };
 in
 {
-  home.packages = [ pomodoro pkgs.networkmanagerapplet];
+  home.packages = [
+    pomodoro
+    pkgs.networkmanagerapplet
+  ];
 
   programs.waybar = {
     enable = true;
@@ -30,9 +32,22 @@ in
         height = 40;
         spacing = 0;
 
-        modules-left = [ "memory" "cpu" "custom/gpu" "hyprland/workspaces" "custom/pomodoro" ];
+        modules-left = [
+          "memory"
+          "cpu"
+          "custom/gpu"
+          "hyprland/workspaces"
+          "custom/pomodoro"
+        ];
         modules-center = [ "wlr/taskbar" ];
-        modules-right = [ "mpd" "bluetooth" "pulseaudio" "tray" "clock" "custom/power" ];
+        modules-right = [
+          "mpd"
+          "bluetooth"
+          "pulseaudio"
+          "tray"
+          "clock"
+          "custom/power"
+        ];
 
         "memory" = {
           format = "{:>3}% ";
@@ -60,7 +75,7 @@ in
             "default" = "○";
             "urgent" = "◍";
           };
-        }; 
+        };
 
         "custom/pomodoro" = {
           exec = "pomodoro";
@@ -78,7 +93,7 @@ in
           icon-size = 20;
           tooltip-format = "{title}";
           on-click = "activate";
-          on-click-middle = "close"; 
+          on-click-middle = "close";
         };
 
         "mpd" = {
@@ -96,7 +111,7 @@ in
           port = 6600;
           tooltip-format = "{title}\n{artist} — {album}\n{elapsedTime:%M:%S} / {totalTime:%M:%S}  ({songPosition}/{queueLength})";
           tooltip-format-disconnected = "MPD DOWN";
-          
+
           on-click = "${pkgs.playerctl}/bin/playerctl -p mpd play-pause";
           on-click-right = "${pkgs.playerctl}/bin/playerctl -p mpd next";
           on-click-middle = "alacritty -e rmpc";
@@ -138,7 +153,7 @@ in
         };
       };
     };
-    
+
     style = ''
       * {
         border: none;
