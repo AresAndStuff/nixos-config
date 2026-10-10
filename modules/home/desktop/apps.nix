@@ -13,6 +13,10 @@
 
   services.hyprpolkitagent.enable = true;
   programs.zathura.enable = true;
+  programs.btop = {
+    enable = true;
+    package = pkgs.btop.override { cudaSupport = true; };
+  };
 
   xdg.mimeApps = {
     enable = true;
