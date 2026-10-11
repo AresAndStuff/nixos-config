@@ -57,11 +57,19 @@
             }
           ];
         };
+
+      mkServer =
+        host:
+        nixpkgs.lib.nixosSystem {
+          specialArgs = inputs; #the server does not need assets
+          modules = [ ./hosts/${host}/configuration.nix ];
+        };
     in
     {
       nixosConfigurations = {
         nix-desktop = mkHost "desktop";
         nix-laptop = mkHost "laptop";
+        nix-hs = mkServer "hs";
       };
     };
 }
