@@ -30,5 +30,6 @@
     wineWow64Packages.stable
     winetricks
     umu-launcher # Lutris uses to run Proton
+    prismlauncher
   ];
 }
