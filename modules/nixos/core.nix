@@ -1,26 +1,11 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./bluetooth.nix ];
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
+  imports = [
+    ./base.nix
+    ./bluetooth.nix
   ];
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
-  nixpkgs.config.allowUnfree = true;
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = "Europe/Zurich";
   networking.networkmanager.enable = true;
 
   fonts.packages = with pkgs; [
@@ -51,11 +36,4 @@
     ];
     shell = pkgs.zsh;
   };
-
-  environment.systemPackages = with pkgs; [
-    git
-    wget
-    curl
-    btop
-  ];
 }
