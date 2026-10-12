@@ -64,6 +64,9 @@
       tree = "eza --tree";
       nrs = "sudo nixos-rebuild switch --flake $FLAKE";
       nrt = "sudo nixos-rebuild test --flake $FLAKE";
+      #server
+      hrs = "nixos-rebuild switch --flake $HOME/nixos-config#nix-hs --target-host hs --sudo --ask-sudo-password";
+      hrt = "nixos-rebuild test   --flake $HOME/nixos-config#nix-hs --target-host hs --sudo --ask-sudo-password";
     };
 
     initContent = ''
