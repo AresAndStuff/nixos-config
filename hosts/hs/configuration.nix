@@ -1,29 +1,31 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
-  imports = [ 
+  imports = [
     ./hardware-configuration.nix
     ../../modules/nixos/server
+    ../../modules/nixos/base.nix
+    ./storage.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "nixos";
+  networking.hostName = "nix-hs";
   networking.networkmanager.enable = true;
 
-  time.timeZone = "Europe/Zurich";
-  i18n.defaultLocale = "en_US.UTF-8";
-  services.xserver.xkb = { layout = "ch"; variant = ""; };
+  services.xserver.xkb = {
+    layout = "ch";
+    variant = "";
+  };
   console.keyMap = "sg";
 
   users.users."nixhs" = {
     isNormalUser = true;
     description = "nix-hs";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "nixhs" ];
 
   system.stateVersion = "26.05";

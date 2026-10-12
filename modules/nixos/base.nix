@@ -17,7 +17,6 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
-  # mkDefault: der Server überschreibt das (Chromebox-Firmware, siehe hosts/hs)
   boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 
   i18n.defaultLocale = "en_US.UTF-8";

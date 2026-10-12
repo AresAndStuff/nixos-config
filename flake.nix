@@ -61,7 +61,7 @@
       mkServer =
         host:
         nixpkgs.lib.nixosSystem {
-          specialArgs = inputs; #the server does not need assets
+          specialArgs = inputs; # the server does not need assets
           modules = [ ./hosts/${host}/configuration.nix ];
         };
     in
