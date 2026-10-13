@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../modules/nixos
     ../../modules/nixos/gnome.nix
+    ./wireguard.nix
   ];
 
   networking.hostName = "nix-laptop";

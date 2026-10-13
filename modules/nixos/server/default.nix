@@ -8,6 +8,7 @@
     ./time.nix
     ./logging.nix
     ./lan.nix
-    .=/dyndns.nix
+    ./dyndns.nix
+    ./wireguard.nix
   ];
 }
