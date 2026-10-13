@@ -18,7 +18,7 @@
       }
       {
         # Laptop
-        publicKey = "<Schluessel aus Schritt 1>";
+        publicKey = "yIr+Dum1HLCwFajJYPDWP5Of8LY+Rze81irpUODSh0E=";
         allowedIPs = [ "10.77.0.3/32" ];
       }
     ];
