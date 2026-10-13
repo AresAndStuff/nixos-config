@@ -6,6 +6,10 @@
     ports = [ 2222 ];
     openFirewall = false;
 
+    authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDKuvlEEzA/dWkaG9h2qydM/nSPV2Gm1Vs6LlqGbAxzT ado@nix-laptop"
+    ];
+
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
