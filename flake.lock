@@ -112,11 +112,11 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1791859127,
-        "narHash": "sha256-I2vU0c5LbRuWlE30pbJ49XQ3pIuQOFlNBiuMIFOxunY=",
+        "lastModified": 1791921017,
+        "narHash": "sha256-3eLHw6p8H6q9aueYtilJljCrrS887SitWOZ5dfHwN/g=",
         "ref": "refs/heads/main",
-        "rev": "bc12254cb56cc90862ef00dd7ce0aea13e2ea750",
-        "revCount": 2,
+        "rev": "6630ffbe22e7fdb693f7641b8ae48a3708a5ca67",
+        "revCount": 3,
         "type": "git",
         "url": "file:///home/ado/nix-secrets"
       },

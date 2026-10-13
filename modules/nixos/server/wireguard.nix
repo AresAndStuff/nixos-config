@@ -1,24 +1,24 @@
-{ ... }:
-
+{ config, mysecrets, ... }:
+let
+  keys = import "${mysecrets}/keys.nix";
+in
 {
   networking.wireguard.interfaces.wg0 = {
     ips = [ "10.77.0.1/24" ];
     listenPort = 51820;
 
-    # Wird beim ersten Start auf dem Server erzeugt und verlaesst ihn nie.
-    # Bei Neuinstallation: neuer Schluessel, Clients muessen nachgezogen werden.
-    privateKeyFile = "/var/lib/wireguard/wg0.key";
-    generatePrivateKeyFile = true;
+    # Bei Neuinstallation: neuen Host-Key in keys.nix eintragen, agenix -r, deployen.
+    privateKeyFile = config.age.secrets.wg-hs.path;
 
     peers = [
       {
         # Handy
-        publicKey = "PDiyxLKOT/X/D4Vc8z9ZmHVMDVg7DWe4xgSgCmkgTx4=";
+        publicKey = keys.wg.phone;
         allowedIPs = [ "10.77.0.2/32" ];
       }
       {
         # Laptop
-        publicKey = "ttuallxMn6HxSBp/VUx4Votj2l75G/zc7ztLuOdOK0o=";
+        publicKey = keys.wg.laptop;
         allowedIPs = [ "10.77.0.3/32" ];
       }
     ];

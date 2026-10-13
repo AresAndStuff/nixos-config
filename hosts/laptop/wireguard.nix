@@ -1,9 +1,11 @@
-{ ... }:
-
+{ config, mysecrets, ... }:
+let
+  keys = import "${mysecrets}/keys.nix";
+in
 {
   networking.networkmanager.ensureProfiles = {
-    # Enthält nur: WG_PRIVATE_KEY=<Inhalt von hs.key>
-    environmentFiles = [ "/var/lib/wireguard/hs.env" ];
+    # agenix: wg-laptop.env.age
+    environmentFiles = [ config.age.secrets.wg-laptop-env.path ];
 
     profiles.hs-vpn = {
       connection = {
@@ -13,7 +15,7 @@
         autoconnect = "false";
       };
       wireguard.private-key = "$WG_PRIVATE_KEY";
-      "wireguard-peer.4MCQrlMLWs47XwEFZy0c3rkz+j53ksErUJC13BIVExc=" = {
+      "wireguard-peer.${keys.wg.hs}" = {
         endpoint = "vpn.nix4arn.lol:51820";
         allowed-ips = "10.77.0.1/32;";
       };

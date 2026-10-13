@@ -6,6 +6,7 @@
     ../../modules/nixos
     ../../modules/nixos/gnome.nix
     ./wireguard.nix
+    ./secrets.nix
   ];
 
   networking.hostName = "nix-laptop";
@@ -15,7 +16,7 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = true;   # saves VRAM on suspend, enables nvidia-suspend/resume services
+    powerManagement.enable = true; # saves VRAM on suspend, enables nvidia-suspend/resume services
     open = false;
   };
 

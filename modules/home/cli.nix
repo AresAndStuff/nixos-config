@@ -54,7 +54,7 @@
     };
 
     shellAliases = {
-      vage = "sudo EDITOR=nano nix run github:ryantm/agenix -- -i /etc/ssh/ssh_host_agenix_key -e";
+      vage = "EDITOR=nano nix run github:ryantm/agenix -- -i ~/.ssh/id_ed25519_agenix -e";
       cat = "bat";
       find = "fd";
       grep = "rg";

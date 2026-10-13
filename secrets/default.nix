@@ -11,9 +11,7 @@
     agenix.nixosModules.default
   ];
 
-  age.identityPaths = [
-    "/etc/ssh/ssh_host_agenix_key"
-  ];
+  age.identityPaths = [ "/var/lib/agenix/key" ];
 
   age.secrets = {
     "passwort-ado" = {
