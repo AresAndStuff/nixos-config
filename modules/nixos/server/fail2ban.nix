@@ -12,6 +12,7 @@
       lan.v4
       lan.v6
       lan.linkLocal
+      lan.vpn
     ];
 
     # Der Jail "sshd" erkennt den SSH-Port 2222 selbst

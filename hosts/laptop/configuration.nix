@@ -15,8 +15,8 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    # If you use the open-source kernel modules (recommended for modern cards on newer kernels):
-    open = false; 
+    powerManagement.enable = true;   # saves VRAM on suspend, enables nvidia-suspend/resume services
+    open = false;
   };
 
   # Kein agenix auf dem Laptop. Nach dem ersten Boot: passwd ado

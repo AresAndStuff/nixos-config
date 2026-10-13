@@ -7,6 +7,14 @@
     enableDefaultConfig = false;
 
     settings = {
+      "hs-vpn" = {
+        hostname = "10.77.0.1";
+        user = "nixhs";
+        port = 2222;
+        identityFile = "~/.ssh/id_ed25519";
+        identitiesOnly = true;
+      };
+
       "hs" = {
         hostname = "192.168.1.195";
         user = "nixhs";
