@@ -1,4 +1,4 @@
-{ ... }:
+{ lan, ... }:
 
 {
   services.fail2ban = {
@@ -9,9 +9,9 @@
 
     # Dein LAN wird nie gebannt
     ignoreIP = [
-      "192.168.1.0/24"
-      "2001:1708:2483:8800::/64"
-      "fe80::/10"
+      lan.v4
+      lan.v6
+      lan.linkLocal
     ];
 
     # Der Jail "sshd" erkennt den SSH-Port 2222 selbst
