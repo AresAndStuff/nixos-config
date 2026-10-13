@@ -18,7 +18,7 @@
       }
       {
         # Laptop
-        publicKey = "yIr+Dum1HLCwFajJYPDWP5Of8LY+Rze81irpUODSh0E=";
+        publicKey = "ttuallxMn6HxSBp/VUx4Votj2l75G/zc7ztLuOdOK0o=";
         allowedIPs = [ "10.77.0.3/32" ];
       }
     ];
