@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   imports = [
@@ -20,8 +20,8 @@
     open = false;
   };
 
-  # Kein agenix auf dem Laptop. Nach dem ersten Boot: passwd ado
-  users.mutableUsers = true;
+  users.mutableUsers = false;
+  users.users.ado.hashedPasswordFile = config.age.secrets."passwort-ado".path;
 
   system.stateVersion = "26.05";
 }
