@@ -1,10 +1,10 @@
-{ ... }:
+{ theme, ... }:
 
 {
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      monospace-font-name = "JetBrains Mono 11";
+      monospace-font-name = "${theme.font} 11";
       clock-show-weekday = true;
     };
 

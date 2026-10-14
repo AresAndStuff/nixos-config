@@ -6,11 +6,10 @@
     withUWSM = true;
   };
 
+  # Run Electron/Chromium apps natively on Wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   services.xserver.enable = true;
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
   services.xserver.excludePackages = [ pkgs.xterm ];
   services.udisks2.enable = true;
   services.blueman.enable = true;
@@ -21,7 +20,6 @@
     theme = "catppuccin-mocha-rosewater";
   };
 
-  security.rtkit.enable = true;
   security.pam.services.hyprlock = { };
 
   programs.thunar = {
@@ -36,13 +34,6 @@
   programs.xfconf.enable = true;
   services.gvfs.enable = true;
   services.tumbler.enable = true;
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   qt = {
     enable = true;

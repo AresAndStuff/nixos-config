@@ -7,12 +7,12 @@ in
     ips = [ "10.77.0.1/24" ];
     listenPort = 51820;
 
-    # Bei Neuinstallation: neuen Host-Key in keys.nix eintragen, agenix -r, deployen.
+    # After a reinstall: add the new host key to keys.nix, run agenix -r, deploy.
     privateKeyFile = config.age.secrets.wg-hs.path;
 
     peers = [
       {
-        # Handy
+        # Phone
         publicKey = keys.wg.phone;
         allowedIPs = [ "10.77.0.2/32" ];
       }
@@ -26,6 +26,6 @@ in
 
   networking.firewall.allowedUDPPorts = [ 51820 ];
 
-  # NetworkManager soll das Interface nicht anfassen
+  # Keep NetworkManager away from this interface
   networking.networkmanager.unmanaged = [ "wg0" ];
 }

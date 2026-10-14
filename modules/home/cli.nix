@@ -1,4 +1,14 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  agenix,
+  ...
+}:
+
+{
+  # agenix from the flake input, same version as on the hosts
+  home.packages = [ agenix.packages.${pkgs.stdenv.hostPlatform.system}.default ];
+
   programs.zoxide.enable = true; # Smarter 'cd'
   programs.bat.enable = true; # Modern 'cat'
   programs.fd.enable = true; # Modern 'find'
@@ -54,7 +64,7 @@
     };
 
     shellAliases = {
-      vage = "EDITOR=nano nix run github:ryantm/agenix -- -i ~/.ssh/id_ed25519_agenix -e";
+      vage = "EDITOR=nano agenix -i ~/.ssh/id_ed25519_agenix -e";
       cat = "bat";
       find = "fd";
       grep = "rg";
@@ -65,8 +75,8 @@
       nrs = "sudo nixos-rebuild switch --flake $FLAKE";
       nrt = "sudo nixos-rebuild test --flake $FLAKE";
       #server
-      hrs = "nixos-rebuild switch --flake $HOME/nixos-config#nix-hs --target-host hs --sudo --ask-sudo-password";
-      hrt = "nixos-rebuild test   --flake $HOME/nixos-config#nix-hs --target-host hs --sudo --ask-sudo-password";
+      hrs = "nixos-rebuild switch --flake $FLAKE#nix-hs --target-host hs --sudo --ask-sudo-password";
+      hrt = "nixos-rebuild test   --flake $FLAKE#nix-hs --target-host hs --sudo --ask-sudo-password";
     };
 
     initContent = ''

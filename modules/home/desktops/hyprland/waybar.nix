@@ -1,5 +1,18 @@
-{ pkgs, theme, ... }:
+{
+  lib,
+  config,
+  osConfig,
+  pkgs,
+  theme,
+  ...
+}:
 let
+  # GPU module only with NVIDIA, MPD module only when mpd is enabled
+  enabled =
+    m:
+    (m != "custom/gpu" || lib.elem "nvidia" osConfig.services.xserver.videoDrivers)
+    && (m != "mpd" || config.services.mpd.enable);
+
   pomodoro = pkgs.writeShellApplication {
     name = "pomodoro";
     runtimeInputs = with pkgs; [
@@ -32,7 +45,7 @@ in
         height = 40;
         spacing = 0;
 
-        modules-left = [
+        modules-left = lib.filter enabled [
           "memory"
           "cpu"
           "custom/gpu"
@@ -40,7 +53,7 @@ in
           "custom/pomodoro"
         ];
         modules-center = [ "wlr/taskbar" ];
-        modules-right = [
+        modules-right = lib.filter enabled [
           "mpd"
           "bluetooth"
           "pulseaudio"
@@ -62,7 +75,6 @@ in
         "custom/gpu" = {
           exec = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits";
           format = "{:>3}% 󰢮";
-          return-type = "";
           interval = 2;
         };
 

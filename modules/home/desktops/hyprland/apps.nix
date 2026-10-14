@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  osConfig,
+  ...
+}:
 
 {
   home.packages = with pkgs; [
@@ -15,7 +20,9 @@
   programs.zathura.enable = true;
   programs.btop = {
     enable = true;
-    package = pkgs.btop.override { cudaSupport = true; };
+    package = pkgs.btop.override {
+      cudaSupport = lib.elem "nvidia" osConfig.services.xserver.videoDrivers;
+    };
   };
 
   xdg.mimeApps = {

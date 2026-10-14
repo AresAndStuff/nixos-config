@@ -1,16 +1,20 @@
-{ config, ... }:
+{ ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/nixos
-    ../../modules/nixos/nvidia.nix
+    ../../modules/nixos/base.nix
+    ../../modules/nixos/workstation
+    ../../modules/nixos/hardware/nvidia.nix
+    ../../modules/nixos/desktops/hyprland.nix
     ../../modules/nixos/gaming.nix
-    ../../modules/nixos/hyprland.nix
-    ../../secrets
   ];
 
   networking.hostName = "nix-desktop";
+
+  # TODO: The NVIDIA driver probably doesn't know this parameter.
+  # Find out where it came from; if nothing changes without it, delete it.
+  boot.kernelParams = [ "nvidia.NV_alloc_callback_space=1" ];
 
   # Games / Steam library (ext4, same NVMe as root)
   fileSystems."/mnt/games" = {
@@ -22,9 +26,6 @@
       "x-gvfs-show"
     ];
   };
-
-  users.mutableUsers = false;
-  users.users.ado.hashedPasswordFile = config.age.secrets."passwort-ado".path;
 
   system.stateVersion = "26.05";
 }

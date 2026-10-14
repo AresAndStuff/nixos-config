@@ -10,4 +10,10 @@
     ./librewolf.nix
     ./tmux.nix
   ];
+
+  home.username = "ado";
+  home.homeDirectory = "/home/ado";
+
+  fonts.fontconfig.enable = true;
+  programs.home-manager.enable = true;
 }

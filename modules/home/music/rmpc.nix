@@ -16,8 +16,6 @@ let
       pkgs.rmpc
     ];
     text = ''
-      set -euo pipefail
-
       read -r -p "discover > " query
       [[ -z "$query" ]] && exit 0
 
@@ -27,7 +25,7 @@ let
           "ytsearch30:$query" \
         | fzf --delimiter=$'\t' --with-nth=2,3,4 --multi \
               --prompt="🎵 > " \
-              --header="Leerzeichen/Tab = Auswählen | Enter = Streamen | Alt+Enter = Download" \
+              --header="Space/Tab = select | Enter = stream | Alt+Enter = download" \
               --bind="space:toggle+down" \
               --layout=reverse --border=rounded \
               --color="bg:${theme.bg},fg:${theme.text},hl:${theme.accent},header:${theme.subtext},bg+:${theme.surface},fg+:${theme.text},marker:${theme.accent}" \
@@ -47,10 +45,10 @@ let
         url="https://www.youtube.com/watch?v=$id"
 
         if [[ "$key" == "alt-enter" ]]; then
-          # Herunterladen und cachen
+          # Download and cache
           rmpc addyt "$url"
         else
-          # Sofort-Stream ohne Speicher-Download
+          # Stream right away, nothing is saved
           stream_url=$(yt-dlp -g -f bestaudio "$url")
           rmpc add "$stream_url"
         fi
@@ -62,9 +60,6 @@ in
   home.packages = [
     pkgs.yt-dlp
     pkgs.ffmpeg
-    pkgs.python3
-    pkgs.python3Packages.mutagen
-    pkgs.foot
     discover
   ];
 
@@ -98,7 +93,7 @@ in
             "3": SwitchToTab("Search"),
             "4": SwitchToTab("Discover"),
             "y": ExternalCommand(
-                   command: ["foot", "-a", "rmpc-discover", "-e", "rmpc-discover"],
+                   command: ["alacritty", "--class", "rmpc-discover", "-e", "rmpc-discover"],
                    description: "Search YouTube",
                  ),
           },

@@ -7,7 +7,7 @@
     maxretry = 3;
     bantime = "1h";
 
-    # Dein LAN wird nie gebannt
+    # Never ban the LAN or VPN
     ignoreIP = [
       lan.v4
       lan.v6
@@ -15,7 +15,7 @@
       lan.vpn
     ];
 
-    # Der Jail "sshd" erkennt den SSH-Port 2222 selbst
+    # The "sshd" jail picks up SSH port 2222 on its own
     jails.sshd.settings = {
       filter = "sshd[publickey=any]";
       findtime = "10m";

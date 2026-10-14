@@ -1,15 +1,12 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ../../modules/home
-    ../../modules/home/gnome.nix
+    ../../modules/home/desktops/gnome.nix
   ];
 
-  home.username = "ado";
-  home.homeDirectory = "/home/ado";
-  home.stateVersion = "26.05";
+  home.packages = [ pkgs.vlc ];
 
-  fonts.fontconfig.enable = true;
-  programs.home-manager.enable = true;
+  home.stateVersion = "26.05";
 }

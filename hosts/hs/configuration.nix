@@ -3,34 +3,19 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/nixos/server
-    ../../modules/nixos/base.nix
-    ./storage.nix
     ./secrets.nix
+    ./storage.nix
+    ../../modules/nixos/base.nix
+    ../../modules/nixos/server
   ];
 
   networking.hostName = "nix-hs";
   networking.networkmanager.enable = true;
 
-  services.xserver.xkb = {
-    layout = "ch";
-    variant = "";
-  };
   console.keyMap = "sg";
 
-  users.users."nixhs" = {
-    isNormalUser = true;
-    description = "nix-hs";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-  };
-
-  nix.settings.trusted-users = [ "nixhs" ];
-
-  # Server braucht keine IPv6-Privacy-Adressen. Ausgehend soll die
-  # stabile Adresse benutzt werden, sonst traegt DynDNS die falsche ein.
+  # No IPv6 privacy addresses on the server. Outgoing traffic has to use
+  # the stable address, otherwise DynDNS publishes the wrong one.
   networking.tempAddresses = "disabled";
 
   system.stateVersion = "26.05";

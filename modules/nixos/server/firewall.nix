@@ -1,25 +1,27 @@
-{ lan, ... }:
+{ lib, lan, ... }:
 
 {
   networking.nftables.enable = true;
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ ];
-    allowedUDPPorts = [ ];
+    # Modules open their own ports (e.g. wireguard.nix).
 
     allowPing = true;
     pingLimit = "5/second burst 10 packets";
 
-    extraInputRules = ''
-      ip saddr ${lan.v4} tcp dport 2222 accept comment "SSH aus dem LAN (v4)"
-      ip6 saddr { ${lan.v6}, ${lan.linkLocal} } tcp dport 2222 accept comment "SSH aus dem LAN (v6)"
-      iifname "wg0" ip saddr ${lan.vpn} tcp dport 2222 accept comment "SSH aus dem VPN"
-      
-      ip saddr ${lan.v4} meta l4proto igmp accept comment "IGMP aus dem LAN"
+    extraInputRules = lib.mkMerge [
+      ''
+        ip saddr ${lan.v4} tcp dport 2222 accept comment "SSH from LAN (v4)"
+        ip6 saddr { ${lan.v6}, ${lan.linkLocal} } tcp dport 2222 accept comment "SSH from LAN (v6)"
+        iifname "wg0" ip saddr ${lan.vpn} tcp dport 2222 accept comment "SSH from VPN"
 
-      # Muss die letzte Zeile bleiben: loggt, was nicht erlaubt wurde
-      limit rate 3/minute burst 5 packets log prefix "fw-drop: " level warn
-    '';
+        ip saddr ${lan.v4} meta l4proto igmp accept comment "IGMP from LAN"
+      ''
+      # mkAfter: stays the last rule, even if other modules add rules of their own
+      (lib.mkAfter ''
+        limit rate 3/minute burst 5 packets log prefix "fw-drop: " level warn
+      '')
+    ];
   };
 }

@@ -2,6 +2,8 @@
 
 {
   imports = [
+    ./gtk.nix
+    ./apps.nix
     ./hyprland.nix
     ./waybar.nix
     ./wofi.nix

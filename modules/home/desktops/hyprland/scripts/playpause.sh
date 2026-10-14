@@ -1,6 +1,6 @@
 # shellcheck shell=bash
-# XF86AudioMute: pausiert was gerade läuft und merkt sich wen —
-# beim nächsten Druck läuft genau das wieder an.
+# XF86AudioMute: pauses whatever is playing and remembers what it was,
+# so the next press resumes exactly that.
 
 STATE_DIR="${XDG_RUNTIME_DIR}/playpause"
 STATE_FILE="${STATE_DIR}/paused"

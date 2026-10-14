@@ -1,20 +1,6 @@
 { pkgs, ... }:
-let
-  vlc-scaled = pkgs.symlinkJoin {
-    name = "vlc-scaled";
-    paths = [ pkgs.vlc ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/vlc --set QT_SCALE_FACTOR 2
 
-      for f in $out/share/applications/*.desktop; do
-        target=$(readlink -f "$f")
-        rm "$f"
-        sed "s|${pkgs.vlc}/bin/|$out/bin/|g" "$target" > "$f"
-      done
-    '';
-  };
-in
+# VLC is added per host (scaled on the desktop, plain on the laptop).
 {
   home.packages = with pkgs; [
     vscodium
@@ -22,7 +8,6 @@ in
     discord
     libreoffice
     anki
-    vlc-scaled
     ungoogled-chromium
     pdfarranger
     scrcpy

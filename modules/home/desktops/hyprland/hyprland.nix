@@ -37,7 +37,7 @@ in
 
       decoration = {
         active_opacity = 1.0;
-        inactive_opacity = 0.8; # Werte zwischen 0.0 und 1.0
+        inactive_opacity = 0.8; # 0.0 to 1.0
       };
 
       input = {
@@ -50,7 +50,7 @@ in
         "SUPER, Space, exec, pkill wofi || wofi"
         "SUPER, Q, killactive,"
         "SUPER, F, togglefloating,"
-        "SUPER, M, exit,"
+        "SUPER, M, exec, uwsm stop"
         "SUPER, V, layoutmsg, togglesplit"
         "SUPER, L, exec, pkill wlogout || wlogout-menu"
 
@@ -101,4 +101,7 @@ in
       windowrule = match:class ^(steam_app_\d+)$, no_blur on
     '';
   };
+
+  # grim saves screenshots here and fails if the folder is missing
+  home.file."Pictures/Screenshots/.keep".text = "";
 }

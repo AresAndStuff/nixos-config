@@ -20,6 +20,8 @@
     };
 
     mysecrets = {
+      # git+file only sees committed files: commit new .age files in the
+      # secrets repo first, then run `nix flake update mysecrets`.
       url = "git+file:///home/ado/nix-secrets";
       flake = false;
     };
@@ -27,7 +29,6 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       home-manager,
       ...

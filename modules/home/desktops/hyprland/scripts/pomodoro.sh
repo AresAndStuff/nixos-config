@@ -1,7 +1,7 @@
 # shellcheck shell=bash
-# Waybar-Pomodoro. Ohne Argument = aktuellen Stand als JSON ausgeben
-# (1x/Sekunde), die Subkommandos kommen aus den Klick/Scroll-Bindings.
-# State liegt in XDG_RUNTIME_DIR, überlebt also keinen Reboot.
+# Waybar pomodoro. Without an argument it prints the current state as JSON
+# (once per second); the subcommands come from the click/scroll bindings.
+# State lives in XDG_RUNTIME_DIR, so it doesn't survive a reboot.
 
 : "${ALARM_SOUND:?}"
 
@@ -57,8 +57,8 @@ start_alarm() {
   fi
   notify-send "Timer finished" "Click to stop alarm" >/dev/null 2>&1 || true
 
-  # $1 wird von der bash -c Subshell aufgelöst, nicht hier — single quotes
-  # sind Absicht.
+  # $1 is expanded by the bash -c subshell, not here, so the single
+  # quotes are intentional.
   # shellcheck disable=SC2016
   setsid bash -c '
     exec 9>&-
