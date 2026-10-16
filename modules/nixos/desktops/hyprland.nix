@@ -21,6 +21,10 @@
   };
 
   security.pam.services.hyprlock = { };
+  security.pam.services.sddm.kwallet = {
+    enable = true;
+    package = pkgs.kdePackages.kwallet-pam;
+  };
 
   programs.thunar = {
     enable = true;
@@ -55,6 +59,9 @@
 
   environment.systemPackages = with pkgs.kdePackages; [
     qtsvg
+    kwallet
+    kwallet-pam
+    kwalletmanager
     (pkgs.catppuccin-sddm.override {
       flavor = "mocha";
       accent = "rosewater";

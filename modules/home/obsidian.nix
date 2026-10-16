@@ -34,20 +34,24 @@ let
       "styles.css" = "sha256-p3ErAxKD0xzS8mZTogagHBZpdrcIH0OhHZyVTNuwlhw=";
     };
   };
+
   encryptedGitSync = mkPlugin {
     owner = "AresAndStuff";
     repo = "encrypted-git-sync";
-    version = "0.1.0";
+    version = "0.3.0";
     hashes = {
-      "main.js" = "sha256-RorcIeqBBJLh/BWlshsqh1vd+PPmDAm2GAmp/MX2d30=";
-      "manifest.json" = "sha256-k+t+plqadd91BzHE6PEpc3mDQsO/f18ZJXsDQ3cffm8=";
+      "main.js" =  "sha256-p7rQzZLbgqf9p2Tey2wUpbXkzYabMeiBhXTj1Xd5Ako=";
+      "manifest.json" =  "sha256-ntbeLQu0usZ2okP5ctTA8kNdor5lNBy2XN/+weLYcLo=";
       "styles.css" = "sha256-lK4x1DVZ+P2kfVWi5wPHqlVbcYvyXSibMzZ0uG8anY0=";
     };
   };
 in
 {
   programs.obsidian = {
-    enable = true;
+    enable = true; #
+    package = pkgs.obsidian.override {
+      commandLineArgs = "--password-store=kwallet6";
+    };
 
     vaults.notes = {
       target = "Documents/vault";
@@ -60,7 +64,10 @@ in
           "command-palette"
           "daily-notes"
         ];
-        communityPlugins = [ languagetool encryptedGitSync ];
+        communityPlugins = [
+          languagetool
+          encryptedGitSync
+        ];
         app = {
           vimMode = false;
           showLineNumber = true;

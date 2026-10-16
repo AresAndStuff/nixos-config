@@ -10,7 +10,8 @@
 {
   imports = [
     ./bluetooth.nix
-    ./languagetool.nix];
+    ./languagetool.nix
+  ];
 
   networking.networkmanager.enable = true;
 

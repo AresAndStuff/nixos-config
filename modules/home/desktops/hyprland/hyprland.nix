@@ -19,7 +19,10 @@ in
     configType = "hyprlang";
 
     settings = {
-      exec-once = [ "nm-applet --indicator" ];
+      exec-once = [
+        "nm-applet --indicator"
+        "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
+      ];
 
       xwayland = {
         force_zero_scaling = true;
