@@ -34,13 +34,23 @@ let
       "styles.css" = "sha256-p3ErAxKD0xzS8mZTogagHBZpdrcIH0OhHZyVTNuwlhw=";
     };
   };
+  encryptedGitSync = mkPlugin {
+    owner = "AresAndStuff";
+    repo = "encrypted-git-sync";
+    version = "0.1.0";
+    hashes = {
+      "main.js" = "sha256-RorcIeqBBJLh/BWlshsqh1vd+PPmDAm2GAmp/MX2d30=";
+      "manifest.json" = "sha256-k+t+plqadd91BzHE6PEpc3mDQsO/f18ZJXsDQ3cffm8=";
+      "styles.css" = "sha256-lK4x1DVZ+P2kfVWi5wPHqlVbcYvyXSibMzZ0uG8anY0=";
+    };
+  };
 in
 {
   programs.obsidian = {
-    enable = true; # installs obsidian, so drop it from packages.nix
+    enable = true;
 
     vaults.notes = {
-      target = "Documents/vault"; # relative to $HOME
+      target = "Documents/vault";
       settings = {
         corePlugins = [
           "file-explorer"
@@ -50,12 +60,12 @@ in
           "command-palette"
           "daily-notes"
         ];
-        communityPlugins = [ languagetool ];
+        communityPlugins = [ languagetool encryptedGitSync ];
         app = {
           vimMode = false;
           showLineNumber = true;
         };
-        appearance.theme = "obsidian"; # dark
+        appearance.theme = "obsidian";
       };
     };
   };
