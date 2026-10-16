@@ -1,8 +1,6 @@
 { pkgs, lib, ... }:
 
 let
-  # Wraps a GitHub release (main.js + manifest.json [+ styles.css])
-  # into a package the obsidian module can install
   mkPlugin =
     {
       owner,
@@ -29,11 +27,11 @@ let
   languagetool = mkPlugin {
     owner = "Clemens-E";
     repo = "obsidian-languagetool-plugin";
-    version = "x.y.z"; # latest tag from the repo's releases page
+    version = "0.4.3";
     hashes = {
-      "main.js" = lib.fakeHash;
-      "manifest.json" = lib.fakeHash;
-      "styles.css" = lib.fakeHash;
+      "main.js" = "sha256-8tMTTYw4wE7FAb2mZtXiyUDKVfSBRPd0lkfJUFpq3cQ=";
+      "manifest.json" = "sha256-FN4FqK9Pvh1wRyEGbZUF/KpnteJpvwEyW7egWCNPzR0=";
+      "styles.css" = "sha256-p3ErAxKD0xzS8mZTogagHBZpdrcIH0OhHZyVTNuwlhw=";
     };
   };
 in
@@ -42,7 +40,7 @@ in
     enable = true; # installs obsidian, so drop it from packages.nix
 
     vaults.notes = {
-      target = "Documents/notes"; # relative to $HOME
+      target = "Documents/vault"; # relative to $HOME
       settings = {
         corePlugins = [
           "file-explorer"
