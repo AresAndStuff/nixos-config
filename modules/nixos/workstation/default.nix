@@ -8,7 +8,9 @@
 # What the graphical machines (desktop, laptop) have in common.
 # The desktop environment itself (GNOME/Hyprland) comes from desktops/.
 {
-  imports = [ ./bluetooth.nix ];
+  imports = [
+    ./bluetooth.nix
+    ./languagetool.nix];
 
   networking.networkmanager.enable = true;
 
