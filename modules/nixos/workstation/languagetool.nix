@@ -6,8 +6,8 @@
 }:
 
 let
-  frontPort = 8081; # what the add-on talks to
-  backPort = 8082; # where LanguageTool actually runs
+  frontPort = 8081;
+  backPort = 8082;
 in
 {
   services.languagetool = {

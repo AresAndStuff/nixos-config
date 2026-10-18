@@ -10,7 +10,6 @@
     ./librewolf.nix
     ./tmux.nix
     ./obsidian.nix
-    ./obsidian.nix
   ];
 
   home.username = "ado";

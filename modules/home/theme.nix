@@ -18,6 +18,17 @@ in
     theme = colors // {
       font = "JetBrainsMono Nerd Font";
       withAlpha = color: aa: "rgba(${lib.removePrefix "#" color}${aa})";
+
+      # fzf --color value, for the tmux-sessionizer and rmpc-discover pickers
+      fzfColors = lib.concatStringsSep "," [
+        "bg:${colors.bg}"
+        "fg:${colors.text}"
+        "hl:${colors.accent}"
+        "header:${colors.subtext}"
+        "bg+:${colors.surface}"
+        "fg+:${colors.text}"
+        "marker:${colors.accent}"
+      ];
     };
   };
 }

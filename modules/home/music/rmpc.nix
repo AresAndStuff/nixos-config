@@ -28,7 +28,7 @@ let
               --header="Space/Tab = select | Enter = stream | Alt+Enter = download" \
               --bind="space:toggle+down" \
               --layout=reverse --border=rounded \
-              --color="bg:${theme.bg},fg:${theme.text},hl:${theme.accent},header:${theme.subtext},bg+:${theme.surface},fg+:${theme.text},marker:${theme.accent}" \
+              --color="${theme.fzfColors}" \
               --expect=alt-enter \
         || true
       )

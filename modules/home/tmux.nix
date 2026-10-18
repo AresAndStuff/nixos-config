@@ -25,7 +25,7 @@ let
             zoxide query -l 2>/dev/null || true
           } | awk '!seen[$0]++' \
             | fzf --prompt="session > " --layout=reverse --border=rounded \
-                  --color="bg:${theme.bg},fg:${theme.text},hl:${theme.accent},header:${theme.subtext},bg+:${theme.surface},fg+:${theme.text},marker:${theme.accent}"
+                  --color="${theme.fzfColors}"
         ) || true
       fi
 

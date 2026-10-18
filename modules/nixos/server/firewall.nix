@@ -1,5 +1,14 @@
-{ lib, lan, ... }:
+{
+  config,
+  lib,
+  lan,
+  ...
+}:
 
+let
+  # Taken from ssh.nix, so moving sshd can't leave the rules on the old port (and lock SSH out).
+  ssh = toString (lib.head config.services.openssh.ports);
+in
 {
   networking.nftables.enable = true;
 
@@ -12,9 +21,9 @@
 
     extraInputRules = lib.mkMerge [
       ''
-        ip saddr ${lan.v4} tcp dport 2222 accept comment "SSH from LAN (v4)"
-        ip6 saddr { ${lan.v6}, ${lan.linkLocal} } tcp dport 2222 accept comment "SSH from LAN (v6)"
-        iifname "wg0" ip saddr ${lan.vpn} tcp dport 2222 accept comment "SSH from VPN"
+        ip saddr ${lan.v4} tcp dport ${ssh} accept comment "SSH from LAN (v4)"
+        ip6 saddr { ${lan.v6}, ${lan.linkLocal} } tcp dport ${ssh} accept comment "SSH from LAN (v6)"
+        iifname "wg0" ip saddr ${lan.vpn} tcp dport ${ssh} accept comment "SSH from VPN"
 
         ip saddr ${lan.v4} meta l4proto igmp accept comment "IGMP from LAN"
       ''

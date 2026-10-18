@@ -242,14 +242,18 @@ in
         userContent = mkUserContent theme.bg;
       };
 
-      profile1 = commonSettings // {
-        id = 1;
-        name = "Profile 1";
-        path = "YNN5QMIH.Profile 1";
-        # Change this hex color code to whatever distinct background you want for Profile 1!
-        userChrome = mkUserChrome "#444e6a";
-        userContent = mkUserContent "#444e6a";
-      };
+      profile1 =
+        let
+          bg = "#444e6a"; # its own background, so it can't be mistaken for default
+        in
+        commonSettings
+        // {
+          id = 1;
+          name = "Profile 1";
+          path = "YNN5QMIH.Profile 1";
+          userChrome = mkUserChrome bg;
+          userContent = mkUserContent bg;
+        };
     };
   };
 }
