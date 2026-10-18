@@ -1,5 +1,62 @@
-{ theme, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  theme,
+  ...
+}:
 
+# The control center doubles as GNOME's quick-settings menu; waybar's system
+# pill (network, volume, power) opens it.
+let
+  nmcli = "${pkgs.networkmanager}/bin/nmcli";
+  bluetoothctl = "${pkgs.bluez}/bin/bluetoothctl";
+  swaync-client = "${config.services.swaync.package}/bin/swaync-client";
+  hyprlock = lib.getExe config.programs.hyprlock.package;
+
+  # A quick-settings tile. swaync flips the button, then runs `on` or `off`
+  # with SWAYNC_TOGGLE_STATE set; `state` re-reads it whenever the panel opens.
+  toggle =
+    {
+      label,
+      on,
+      off,
+      state,
+    }:
+    {
+      inherit label;
+      type = "toggle";
+      command = toString (
+        pkgs.writeShellScript "swaync-toggle" ''
+          if [ "$SWAYNC_TOGGLE_STATE" = true ]; then ${on}; else ${off}; fi
+        ''
+      );
+      update-command = toString (
+        pkgs.writeShellScript "swaync-toggle-state" ''
+          if ${state}; then echo true; else echo false; fi
+        ''
+      );
+    };
+
+  # Close the panel first, so it isn't in the way (screenshots, lock screen).
+  # swaync runs commands as `/bin/sh -c "<command>"`, so anything with quotes
+  # has to live in a script.
+  closeAnd =
+    name: cmd:
+    toString (
+      pkgs.writeShellScript "swaync-${name}" ''
+        ${swaync-client} -cp
+        ${cmd}
+      ''
+    );
+
+  screenshot = ''
+    sleep 0.3
+    ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - \
+      | tee ~/Pictures/Screenshots/"$(date +%F_%H-%M-%S)".png \
+      | ${pkgs.wl-clipboard}/bin/wl-copy
+  '';
+in
 {
   services.swaync = {
     enable = true;
@@ -8,10 +65,13 @@
       positionX = "right";
       positionY = "top";
       layer = "overlay";
-      control-center-margin-top = 12;
-      control-center-margin-bottom = 12;
-      control-center-margin-right = 12;
-      control-center-margin-left = 12;
+      # A dropdown under the bar that fits its content, not a full-height sidebar
+      fit-to-screen = false;
+      control-center-height = -1;
+      control-center-margin-top = 6;
+      control-center-margin-bottom = 6;
+      control-center-margin-right = 6;
+      control-center-margin-left = 6;
       control-center-width = 400;
       notification-window-width = 400;
       transition-time = 200;
@@ -20,21 +80,88 @@
       keyboard-shortcuts = true;
 
       widgets = [
-        "title"
-        "dnd"
+        "menubar"
         "volume"
+        "buttons-grid"
         "mpris"
+        "title"
         "notifications"
       ];
 
       widget-config = {
+        menubar = {
+          "buttons#actions" = {
+            position = "left";
+            actions = [
+              {
+                label = "󰹑";
+                command = closeAnd "screenshot" screenshot;
+              }
+              {
+                label = "󰌾";
+                command = closeAnd "lock" hyprlock;
+              }
+            ];
+          };
+          "menu#power" = {
+            label = "󰐥";
+            position = "right";
+            actions = [
+              {
+                label = "󰤄   Suspend";
+                command = closeAnd "suspend" "systemctl suspend";
+              }
+              {
+                label = "󰜉   Restart";
+                command = closeAnd "reboot" "systemctl reboot";
+              }
+              {
+                label = "󰐥   Power Off";
+                command = closeAnd "poweroff" "systemctl poweroff";
+              }
+              {
+                label = "󰍃   Log Out";
+                command = closeAnd "logout" "uwsm stop";
+              }
+            ];
+          };
+        };
+
+        volume.label = "󰕾";
+
+        buttons-grid = {
+          buttons-per-row = 2;
+          actions = [
+            (toggle {
+              label = "󰤨   Wi-Fi";
+              on = "${nmcli} radio wifi on";
+              off = "${nmcli} radio wifi off";
+              state = "[ \"$(${nmcli} radio wifi)\" = enabled ]";
+            })
+            (toggle {
+              label = "󰂯   Bluetooth";
+              on = "${bluetoothctl} power on";
+              off = "${bluetoothctl} power off";
+              state = "${bluetoothctl} show | grep -q 'Powered: yes'";
+            })
+            (toggle {
+              label = "󰂛   Do Not Disturb";
+              on = "${swaync-client} -dn";
+              off = "${swaync-client} -df";
+              state = "[ \"$(${swaync-client} -D)\" = true ]";
+            })
+            {
+              label = "󰛳   Network…";
+              command = closeAnd "network" "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
+            }
+          ];
+        };
+
         title = {
           text = "Notifications";
           clear-all-button = true;
           button-text = "Clear";
         };
-        dnd.text = "Do Not Disturb";
-        volume.label = " ";
       };
     };
 
@@ -59,8 +186,48 @@
       .control-center {
         background-color: @bg;
         color:             @text;
-        border-radius:     6px;
-        padding:           8px;
+        border-radius:     18px;
+        padding:           10px;
+      }
+
+      /* top row: screenshot, lock … power menu */
+      .widget-menubar {
+        margin: 4px 3px 6px;
+      }
+      .widget-menubar .widget-menubar-container button {
+        background-color: @surface-alt;
+        border-radius:     99px;
+        min-width:          38px;
+        min-height:         38px;
+        padding:           0;
+        font-size:         17px;
+      }
+      .widget-menubar revealer button {
+        background-color: @surface;
+        border-radius:     12px;
+        padding:           10px 14px;
+      }
+      .widget-menubar revealer button:hover {
+        background-color: @surface-alt;
+      }
+
+      /* quick-settings tiles */
+      .widget-buttons-grid {
+        margin: 2px 0 6px;
+      }
+      .widget-buttons-grid flowboxchild > button {
+        background-color: @surface-alt;
+        border-radius:     99px;
+        min-height:         44px;
+        margin:            3px;
+        padding:           0 16px;
+      }
+      .widget-buttons-grid flowboxchild > button:hover {
+        background-color: @muted;
+      }
+      .widget-buttons-grid flowboxchild > button.toggle:checked {
+        background-color: @accent;
+        color:             @bg;
       }
 
       .control-center scrollbar slider {
@@ -73,11 +240,10 @@
       }
 
       .widget-title,
-      .widget-dnd,
       .widget-volume,
       .widget-mpris {
         background-color: @surface;
-        border-radius:     4px;
+        border-radius:     12px;
         padding:           8px 10px;
         margin:            4px 3px 6px;
         color:             @text;

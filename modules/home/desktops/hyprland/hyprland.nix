@@ -55,7 +55,7 @@ in
         "SUPER, F, togglefloating,"
         "SUPER, M, exec, uwsm stop"
         "SUPER, V, layoutmsg, togglesplit"
-        "SUPER, L, exec, pkill wlogout || wlogout-menu"
+        "SUPER, L, exec, hyprlock"
 
         "SUPER, left, movefocus, l"
         "SUPER, right, movefocus, r"
