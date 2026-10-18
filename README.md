@@ -20,13 +20,13 @@ hosts/<host>/
   secrets.nix                 which agenix secrets this host gets (laptop, hs)
 modules/nixos/
   base.nix                    every host: nix settings, bootloader, locale, agenix
-  workstation/                desktop + laptop: audio, fonts, printing, bluetooth, user ado
+  workstation/                desktop + laptop: audio, fonts, printing, bluetooth, LanguageTool, user ado
   desktops/                   gnome.nix, hyprland.nix
   hardware/nvidia.nix         open driver by default, a host can set open = false
   gaming.nix                  Steam, Proton-GE, gamescope, Lutris, Prism Launcher
   server/                     SSH, firewall, fail2ban, WireGuard, DynDNS, users, time, logging
 modules/home/
-  default.nix                 shared by both graphical hosts: CLI, tmux, dev tools, LibreWolf, apps
+  default.nix                 shared by both graphical hosts: CLI, tmux, dev tools, LibreWolf, Obsidian, apps
   theme.nix                   colors and font, available to every home module as `theme`
   desktops/gnome.nix          dconf settings
   desktops/hyprland/          Hyprland, waybar, wofi, hyprlock, hyprpaper, swaync, wlogout, GTK
@@ -90,6 +90,22 @@ Editing or adding a secret:
    to the build.
 3. In `nixos-config`: `nix flake update mysecrets`, then reference the file in
    `hosts/<host>/secrets.nix` (or a module) and rebuild.
+
+## Obsidian
+
+`modules/home/obsidian.nix` sets up one vault, `~/Documents/vault`, on both graphical hosts.
+
+- **Plugins** are pinned GitHub releases. To update one, change its `version` and replace
+  each hash with the output of
+  `nix store prefetch-file https://github.com/<owner>/<repo>/releases/download/<version>/<file>`.
+- **LanguageTool** checks against the local server from `workstation/languagetool.nix`
+  (socket-activated on `127.0.0.1:8081`), not api.languagetool.org. Its `data.json` is
+  managed by Nix, so settings changed in the plugin's tab won't stick; set them in
+  `obsidian.nix`.
+- **Encrypted Git Sync** keeps its own, writable `data.json`. Its token and passphrase go
+  to the system keyring: KWallet on the desktop (Obsidian runs with
+  `--password-store=kwallet6`), GNOME Keyring on the laptop.
+- `app.json`, `appearance.json` and the plugin lists are managed by Nix as well.
 
 ## Home server
 
