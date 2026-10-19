@@ -56,6 +56,7 @@ in
         "SUPER, M, exec, uwsm stop"
         "SUPER, V, layoutmsg, togglesplit"
         "SUPER, L, exec, hyprlock"
+        "SUPER, E, exec, thunar"
 
         "SUPER, left, movefocus, l"
         "SUPER, right, movefocus, r"
