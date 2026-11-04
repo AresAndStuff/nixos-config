@@ -51,14 +51,36 @@ let
     };
   };
 
+  latexSuite = mkPlugin {
+    owner = "artisticat1";
+    repo = "obsidian-latex-suite";
+    version = "1.14.1";
+    hashes = {
+      "main.js" = "sha256-JJ2LDqyXbjufqFGLaPRI153wengANjYvUU5mzqn+PUs=";
+      "manifest.json" = "sha256-MgGo1dKgGFnaza+YXW1WVFiAo4+ZnCFH5d8u2wpGk2U=";
+      "styles.css" = "sha256-ouLvTepHnpwjd/CpiD/lOfwrEpskSGNCQwn4+SwdyBQ=";
+    };
+  };
+
+  dayPlanner = mkPlugin {
+    owner = "ivan-lednev";
+    repo = "obsidian-day-planner";
+    version = "0.35.1";
+    hashes = {
+      "main.js" = "sha256-ZACQBfCYW9x5qLWG+6FMWdTacA8Bm1T+2d9yXoQNryw=";
+      "manifest.json" = "sha256-E45igMFiXYWfXLLhsORpluSveVDXxjcML8cAm51YYxI=";
+      "styles.css" = "sha256-evDbto8o6Ui/PlUOfnCC5jL9STj22DH93aV671KGsRo=";
+    };
+  };
+
   encryptedGitSync = mkPlugin {
     owner = "AresAndStuff";
     repo = "encrypted-git-sync";
-    version = "0.3.0";
+    version = "0.4.0";
     hashes = {
-      "main.js" = "sha256-p7rQzZLbgqf9p2Tey2wUpbXkzYabMeiBhXTj1Xd5Ako=";
-      "manifest.json" = "sha256-ntbeLQu0usZ2okP5ctTA8kNdor5lNBy2XN/+weLYcLo=";
-      "styles.css" = "sha256-lK4x1DVZ+P2kfVWi5wPHqlVbcYvyXSibMzZ0uG8anY0=";
+      "main.js" = "sha256-yEPBFRNb/DMIL0ci7+03pOqdiJ8zL8N+tKtROo51hMc=";
+      "manifest.json" = "sha256-6Mm5lTOhLAb2TAvAkdhgUu2AV2c9eTVFsGG8BkSIENE=";
+      "styles.css" = "sha256-ZhSZDoJYyGKEX9/9TIm7OIAFK9BdPIkurgX8SEcbmHw=";
     };
   };
 
@@ -101,6 +123,8 @@ in
           # the plugin writes a generated vaultId to its data.json
           # on first start, so that file has to stay writable.
           encryptedGitSync
+          latexSuite
+          dayPlanner
         ];
         app = {
           vimMode = false;
