@@ -10,5 +10,6 @@
     ./seerr.nix
     ./monitoring.nix
     ./homepage.nix
+    ./vaultwarden.nix
   ];
 }

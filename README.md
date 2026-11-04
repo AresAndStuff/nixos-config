@@ -6,7 +6,7 @@ NixOS and Home Manager configuration for three machines, as a single flake on Ni
 |---|---|---|
 | desktop | `nix-desktop` | Hyprland (UWSM, SDDM), NVIDIA open driver, Steam/gaming, mpd + rmpc |
 | laptop | `nix-laptop` | GNOME (GDM), NVIDIA proprietary driver, WireGuard client for the home server |
-| hs | `nix-hs` | Headless home server: Jellyfin, *arrs, qBittorrent over Proton VPN, Seerr, Beszel, Homepage; SSH, WireGuard, DynDNS, fail2ban; 4 TB USB disk at `/srv/data` |
+| hs | `nix-hs` | Headless home server: Jellyfin, *arrs, qBittorrent over Proton VPN, Seerr, Beszel, Homepage, Vaultwarden; SSH, WireGuard, DynDNS, fail2ban; 4 TB USB disk at `/srv/data` |
 
 ## Layout
 
@@ -26,7 +26,7 @@ modules/nixos/
   hardware/nvidia.nix         open driver by default, a host can set open = false
   gaming.nix                  Steam, Proton-GE, gamescope, Lutris, Prism Launcher, Sunshine
   server/                     SSH, firewall, fail2ban, WireGuard, DynDNS, users, time, logging
-  services/                   hs: Jellyfin, *arrs, qBittorrent over Proton VPN, Seerr, Beszel, Homepage
+  services/                   hs: Jellyfin, *arrs, qBittorrent over Proton VPN, Seerr, Beszel, Homepage, Vaultwarden
 modules/home/
   default.nix                 shared by both graphical hosts: CLI, tmux, dev tools, LibreWolf, Obsidian, apps
   theme.nix                   colors and font, available to every home module as `theme`
@@ -82,7 +82,7 @@ Every host decrypts with its own key at `/var/lib/agenix/key` (set once in `base
 | `passwort-ado.age` | desktop, laptop | password hash for `ado` (`users.mutableUsers = false`) |
 | `wg-laptop.env.age` | laptop | WireGuard private key for the NetworkManager profile |
 | `wg-hs.age` | hs | WireGuard server private key |
-| `cloudflare-token.age` | hs | API token for DynDNS |
+| `cloudflare-token.age` | hs | API token for DynDNS and the Vaultwarden certificate (DNS challenge) |
 | `proton-wg.age` | hs | Proton VPN WireGuard private key (qBittorrent's tunnel) |
 | `beszel-agent.env.age` | hs | `KEY` and `TOKEN` for the Beszel agent |
 | `homepage.env.age` | hs | `HOMEPAGE_VAR_*` API keys and logins for the Homepage widgets |
@@ -144,6 +144,13 @@ Flatpaks are managed with [nix-flatpak](https://github.com/gmodena/nix-flatpak) 
 - **qBittorrent** runs in the network namespace `proton`; its only route out is the Proton
   WireGuard tunnel, so it stops when the tunnel does. Settings that must survive live in
   `qbitPrefs` in `torrent-vpn.nix`, not in the web UI.
+- **Vaultwarden** at `https://vault.nix4arn.lol` (Caddy on 443, LAN and VPN only). The DNS
+  record is an unproxied A record pointing at the server's LAN address; VPN clients route
+  that address through the tunnel (the phone needs `192.168.1.195/32` in its AllowedIPs).
+  Sunrise's DNS filters that record, so desktop and laptop pin it in `/etc/hosts`
+  (`workstation/default.nix`) and the phone uses Private DNS `one.one.one.one`.
+  Nightly backup to `/srv/data/backup/vaultwarden`. Signups are controlled by
+  `allowSignups` in `vaultwarden.nix`.
 - If the ISP changes the IPv6 prefix, update `lan.nix`.
 
 ## Desktop (Hyprland) keys

@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lan,
   mysecrets,
   ...
 }:
@@ -15,6 +16,11 @@
   ];
 
   networking.networkmanager.enable = true;
+
+  # Sunrise's resolver drops public records that point at private addresses,
+  # so the Vaultwarden name is pinned here instead of relying on DNS.
+  # Away from home it is reached through the VPN (laptop allowed-ips).
+  networking.hosts.${lan.hs.ip} = [ "vault.${lan.domain}" ];
 
   services.xserver.xkb = {
     layout = "us";

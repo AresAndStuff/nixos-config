@@ -1,6 +1,11 @@
 # Home network addresses, passed to every NixOS and Home Manager module as
 # `lan` (see flake.nix). The only place for them: change them here.
+let
+  domain = "nix4arn.lol"; # DNS at Cloudflare
+in
 {
+  inherit domain;
+
   # Subnets, for firewall rules and fail2ban.
   # Sunrise assigns the v6 prefix dynamically. If it changes, update it
   # here only. Current prefix (on the server): ip -6 addr show scope global
@@ -20,7 +25,7 @@
 
   # WireGuard: wg0 on the server, the laptop's NetworkManager profile
   wg = {
-    endpoint = "vpn.nix4arn.lol"; # kept pointed at home by DynDNS
+    endpoint = "vpn.${domain}"; # kept pointed at home by DynDNS
     port = 51820;
     peers = {
       phone = "10.77.0.2";

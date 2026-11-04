@@ -23,7 +23,8 @@ in
       wireguard.private-key = "$WG_PRIVATE_KEY";
       "wireguard-peer.${keys.wg.hs}" = {
         endpoint = "${lan.wg.endpoint}:${toString lan.wg.port}";
-        allowed-ips = "${lan.hs.vpnIp}/32;";
+        # the LAN address too, so vault.<domain> (which points at it) works over the VPN
+        allowed-ips = "${lan.hs.vpnIp}/32;${lan.hs.ip}/32;";
       };
       ipv4 = {
         method = "manual";
