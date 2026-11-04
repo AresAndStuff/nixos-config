@@ -15,7 +15,7 @@
       lan.vpn
     ];
 
-    # The "sshd" jail picks up SSH port 2222 on its own
+    # The "sshd" jail picks up the port from services.openssh on its own
     jails.sshd.settings = {
       filter = "sshd[publickey=any]";
       findtime = "10m";

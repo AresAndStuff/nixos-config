@@ -84,7 +84,7 @@ let
     };
   };
 
-  # The LanguageTool server from modules/nixos/workstation/languagetool.nix,
+  # The LanguageTool server from modules/nixos/workstation/languagetool.nix
   languagetoolUrl = "http://${lib.head osConfig.systemd.sockets.languagetool-proxy.listenStreams}";
 
   # SDDM unlocks KWallet at login on the desktop, but Electron

@@ -6,12 +6,13 @@ NixOS and Home Manager configuration for three machines, as a single flake on Ni
 |---|---|---|
 | desktop | `nix-desktop` | Hyprland (UWSM, SDDM), NVIDIA open driver, Steam/gaming, mpd + rmpc |
 | laptop | `nix-laptop` | GNOME (GDM), NVIDIA proprietary driver, WireGuard client for the home server |
-| hs | `nix-hs` | Headless home server: SSH, WireGuard, DynDNS, fail2ban, 4 TB USB disk at `/srv/data` |
+| hs | `nix-hs` | Headless home server: Jellyfin, *arrs, qBittorrent over Proton VPN, Seerr, Beszel, Homepage; SSH, WireGuard, DynDNS, fail2ban; 4 TB USB disk at `/srv/data` |
 
 ## Layout
 
 ```
 flake.nix                     inputs, mkHost (with Home Manager) and mkServer (without)
+lan.nix                       home network addresses, passed to every module as `lan`
 assets/                       wallpaper and wlogout icons
 hosts/<host>/
   configuration.nix           imports + anything that only applies to this machine
@@ -23,8 +24,9 @@ modules/nixos/
   workstation/                desktop + laptop: audio, fonts, printing, bluetooth, LanguageTool, Flatpak, user ado
   desktops/                   gnome.nix, hyprland.nix
   hardware/nvidia.nix         open driver by default, a host can set open = false
-  gaming.nix                  Steam, Proton-GE, gamescope, Lutris, Prism Launcher
+  gaming.nix                  Steam, Proton-GE, gamescope, Lutris, Prism Launcher, Sunshine
   server/                     SSH, firewall, fail2ban, WireGuard, DynDNS, users, time, logging
+  services/                   hs: Jellyfin, *arrs, qBittorrent over Proton VPN, Seerr, Beszel, Homepage
 modules/home/
   default.nix                 shared by both graphical hosts: CLI, tmux, dev tools, LibreWolf, Obsidian, apps
   theme.nix                   colors and font, available to every home module as `theme`
@@ -33,8 +35,8 @@ modules/home/
   music/                      mpd + rmpc (YouTube search via rmpc-discover)
 ```
 
-Each host chooses its own modules: `base.nix`, then `workstation` or `server`, then a
-desktop and hardware. There is no automatic wiring beyond that.
+Each host chooses its own modules: `base.nix`, then `workstation` or `server` (plus
+`services` on hs), then a desktop and hardware. There is no automatic wiring beyond that.
 
 ### Module arguments
 
@@ -43,9 +45,9 @@ Besides the usual `pkgs`, `lib`, `config`, modules can take these as arguments:
 | Argument | Comes from | Available in |
 |---|---|---|
 | `agenix`, `mysecrets`, `firefox-addons`, … | flake inputs (`specialArgs`) | NixOS and Home Manager modules |
-| `assets` | `./assets` | desktop and laptop (not the server) |
+| `assets` | `./assets` | NixOS and Home Manager modules |
+| `lan` | `./lan.nix` | NixOS and Home Manager modules; the only place for subnets, the server's addresses, the SSH port and WireGuard |
 | `theme` | `modules/home/theme.nix` | Home Manager modules |
-| `lan` | `modules/nixos/server/lan.nix` | server modules; the only place for LAN/VPN subnets |
 | `osConfig` | Home Manager | Home Manager modules, to read the host's NixOS config |
 
 ## Everyday use
@@ -81,6 +83,9 @@ Every host decrypts with its own key at `/var/lib/agenix/key` (set once in `base
 | `wg-laptop.env.age` | laptop | WireGuard private key for the NetworkManager profile |
 | `wg-hs.age` | hs | WireGuard server private key |
 | `cloudflare-token.age` | hs | API token for DynDNS |
+| `proton-wg.age` | hs | Proton VPN WireGuard private key (qBittorrent's tunnel) |
+| `beszel-agent.env.age` | hs | `KEY` and `TOKEN` for the Beszel agent |
+| `homepage.env.age` | hs | `HOMEPAGE_VAR_*` API keys and logins for the Homepage widgets |
 
 Editing or adding a secret:
 
@@ -126,13 +131,20 @@ Flatpaks are managed with [nix-flatpak](https://github.com/gmodena/nix-flatpak) 
 - **SSH** on port 2222, keys only, user `nixhs`. The firewall allows it from the LAN and
   the VPN only; it is not open to the internet.
 - **WireGuard** `wg0` on UDP 51820, subnet `10.77.0.0/24`. The server is `.1`, the phone
-  `.2`, the laptop `.3`. Peers are listed in `modules/nixos/server/wireguard.nix`.
+  `.2`, the laptop `.3` (addresses in `lan.nix`, keys in `modules/nixos/server/wireguard.nix`).
 - **DynDNS** keeps a Cloudflare record pointed at the home connection (IPv4 and IPv6).
   It must stay unproxied, otherwise WireGuard can't connect.
 - **fail2ban** bans after 3 failed SSH attempts for 1h, never for the LAN or VPN.
 - **Firewall** is nftables. Everything not accepted is dropped, and the last rule logs
   drops with the prefix `fw-drop:` (`journalctl -k | grep fw-drop`).
-- If the ISP changes the IPv6 prefix, update `modules/nixos/server/lan.nix`.
+- **Web UIs** are open to the LAN and VPN only: Jellyfin 8096, Seerr 5055, qBittorrent 8080,
+  Prowlarr 9696, Sonarr 8989, Radarr 7878, Lidarr 8686, Beszel 8090, Homepage 8082.
+  A new service opens its port with `homelab.lanTcpPorts = [ port ];`
+  (option defined in `modules/nixos/server/firewall.nix`).
+- **qBittorrent** runs in the network namespace `proton`; its only route out is the Proton
+  WireGuard tunnel, so it stops when the tunnel does. Settings that must survive live in
+  `qbitPrefs` in `torrent-vpn.nix`, not in the web UI.
+- If the ISP changes the IPv6 prefix, update `lan.nix`.
 
 ## Desktop (Hyprland) keys
 
@@ -143,7 +155,8 @@ Flatpaks are managed with [nix-flatpak](https://github.com/gmodena/nix-flatpak) 
 | `Super+Q` | close window |
 | `Super+F` | toggle floating |
 | `Super+V` | toggle split direction |
-| `Super+L` | power menu (wlogout) |
+| `Super+L` | lock screen (hyprlock) |
+| `Super+E` | file manager (Thunar) |
 | `Super+M` | log out |
 | `Super+1…5` / `Super+Shift+1…5` | switch to / move window to workspace |
 | `Super+S` / `Super+Shift+S` | screenshot region / whole screen, to file and clipboard |

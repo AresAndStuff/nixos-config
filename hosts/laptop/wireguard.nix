@@ -1,4 +1,10 @@
-{ config, mysecrets, ... }:
+{
+  config,
+  lan,
+  mysecrets,
+  ...
+}:
+
 let
   keys = import "${mysecrets}/keys.nix";
 in
@@ -16,12 +22,12 @@ in
       };
       wireguard.private-key = "$WG_PRIVATE_KEY";
       "wireguard-peer.${keys.wg.hs}" = {
-        endpoint = "vpn.nix4arn.lol:51820";
-        allowed-ips = "10.77.0.1/32;";
+        endpoint = "${lan.wg.endpoint}:${toString lan.wg.port}";
+        allowed-ips = "${lan.hs.vpnIp}/32;";
       };
       ipv4 = {
         method = "manual";
-        address1 = "10.77.0.3/32";
+        address1 = "${lan.wg.peers.laptop}/32";
       };
       ipv6.method = "ignore";
     };

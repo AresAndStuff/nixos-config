@@ -7,12 +7,7 @@
     ./storage.nix
     ../../modules/nixos/base.nix
     ../../modules/nixos/server
-    ../../modules/nixos/services/jellyfin.nix
-    ../../modules/nixos/services/arr.nix
-    ../../modules/nixos/services/torrent-vpn.nix
-    ../../modules/nixos/services/monitoring.nix
-    ../../modules/nixos/services/homepage.nix
-    ../../modules/nixos/services/media-extras.nix
+    ../../modules/nixos/services
   ];
 
   networking.hostName = "nix-hs";

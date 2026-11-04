@@ -12,9 +12,9 @@ let
   port = 8082;
 
   # Address the browser uses for the links. Over the VPN the server is
-  # 10.77.0.1, so these links only work in the LAN until Caddy gives the
+  # lan.hs.vpnIp, so these links only work in the LAN until Caddy gives the
   # services proper names.
-  host = "192.168.1.195";
+  host = lan.hs.ip;
   link = p: "http://${host}:${toString p}";
   local = p: "http://127.0.0.1:${toString p}";
 
@@ -53,7 +53,7 @@ in
     enable = true;
     listenPort = port;
     # Homepage refuses requests whose Host header isn't listed here
-    allowedHosts = "${host}:${toString port},10.77.0.1:${toString port}";
+    allowedHosts = "${host}:${toString port},${lan.hs.vpnIp}:${toString port}";
     environmentFiles = [ config.age.secrets.homepage-env.path ];
 
     settings = {
@@ -188,7 +188,7 @@ in
           {
             Router = [
               {
-                href = "http://192.168.1.1";
+                href = "http://${lan.router}";
                 abbr = "RT";
               }
             ];
@@ -214,9 +214,5 @@ in
     ];
   };
 
-  networking.firewall.extraInputRules = ''
-    ip saddr ${lan.v4} tcp dport ${toString port} accept comment "Homepage from LAN (v4)"
-    ip6 saddr ${lan.v6} tcp dport ${toString port} accept comment "Homepage from LAN (v6)"
-    iifname "wg0" ip saddr ${lan.vpn} tcp dport ${toString port} accept comment "Homepage from VPN"
-  '';
+  homelab.lanTcpPorts = [ port ];
 }

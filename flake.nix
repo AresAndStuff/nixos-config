@@ -36,9 +36,10 @@
       ...
     }@inputs:
     let
-      assets = ./assets;
+      # Extra module arguments, for every host and for Home Manager
       args = inputs // {
-        inherit assets;
+        assets = ./assets;
+        lan = import ./lan.nix;
       };
 
       mkHost =
@@ -64,7 +65,7 @@
       mkServer =
         host:
         nixpkgs.lib.nixosSystem {
-          specialArgs = inputs; # the server does not need assets
+          specialArgs = args;
           modules = [ ./hosts/${host}/configuration.nix ];
         };
     in

@@ -1,7 +1,7 @@
-{ lib, lan, ... }:
+{ lib, ... }:
 
 let
-  # Web UIs: LAN + VPN only, like Jellyfin
+  # Web UIs, LAN + VPN only (homelab.lanTcpPorts below)
   ports = {
     qbittorrent = 8080;
     prowlarr = 9696;
@@ -47,8 +47,5 @@ in
     serviceConfig.UMask = lib.mkForce "0002"; # module default is 0022
   });
 
-  networking.firewall.extraInputRules = lib.concatMapStrings (port: ''
-    ip saddr ${lan.v4} tcp dport ${toString port} accept
-    iifname "wg0" ip saddr ${lan.vpn} tcp dport ${toString port} accept
-  '') (lib.attrValues ports);
+  homelab.lanTcpPorts = lib.attrValues ports;
 }

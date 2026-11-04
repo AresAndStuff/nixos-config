@@ -1,14 +1,14 @@
-{ pkgs, lan, ... }:
+{ pkgs, ... }:
 
 {
   services.jellyfin.enable = true;
-  # Datenbank, Cache und Metadaten bleiben unter /var/lib/jellyfin (SSD)
+  # Database, cache and metadata stay in /var/lib/jellyfin (SSD)
 
-  # Fehlt die USB-Platte, sähe Jellyfin eine leere Mediathek und räumt
-  # womöglich die Bibliothek ab. Dann lieber gar nicht starten.
+  # Without the USB disk Jellyfin would see an empty library and might
+  # clean it out. Better not to start at all.
   systemd.services.jellyfin.unitConfig.RequiresMountsFor = "/srv/data";
 
-  # Hardware-Transcoding über die UHD 620 (VAAPI)
+  # Hardware transcoding on the UHD 620 (VAAPI)
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -21,10 +21,5 @@
     "video"
   ];
 
-  # Nur LAN und VPN, nichts öffentlich. Die Log-Regel bleibt dank mkAfter die letzte.
-  networking.firewall.extraInputRules = ''
-    ip saddr ${lan.v4} tcp dport 8096 accept comment "Jellyfin aus dem LAN (v4)"
-    ip6 saddr ${lan.v6} tcp dport 8096 accept comment "Jellyfin aus dem LAN (v6)"
-    iifname "wg0" ip saddr ${lan.vpn} tcp dport 8096 accept comment "Jellyfin aus dem VPN"
-  '';
+  homelab.lanTcpPorts = [ 8096 ]; # web UI, the port isn't configurable here
 }

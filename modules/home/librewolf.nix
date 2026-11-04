@@ -163,8 +163,16 @@ in
       # Replace containers made in the UI with exactly these
       containersForce = true;
       containers = {
-        Personal = { id = 1; color = "blue"; icon = "fingerprint"; };
-        Work = { id = 2; color = "orange"; icon = "briefcase"; };
+        Personal = {
+          id = 1;
+          color = "blue";
+          icon = "fingerprint";
+        };
+        Work = {
+          id = 2;
+          color = "orange";
+          icon = "briefcase";
+        };
       };
     };
   };

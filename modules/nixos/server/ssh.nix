@@ -1,11 +1,11 @@
-{ mysecrets, ... }:
+{ lan, mysecrets, ... }:
 let
   keys = import "${mysecrets}/keys.nix";
 in
 {
   services.openssh = {
     enable = true;
-    ports = [ 2222 ];
+    ports = [ lan.hs.sshPort ];
     openFirewall = false;
 
     settings = {
@@ -31,6 +31,5 @@ in
   users.users."nixhs".openssh.authorizedKeys.keys = [
     keys.ssh.desktop
     keys.ssh.laptop
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDKuvlEEzA/dWkaG9h2qydM/nSPV2Gm1Vs6LlqGbAxzT ado@nix-laptop" # remove in phase 7
   ];
 }

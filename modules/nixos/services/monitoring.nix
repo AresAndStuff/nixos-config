@@ -20,7 +20,7 @@ in
     host = "0.0.0.0"; # the firewall below limits it to LAN + VPN
     port = hubPort;
   };
-  systemd.services.beszel-hub.environment.APP_URL = "http://192.168.1.195:${toString hubPort}";
+  systemd.services.beszel-hub.environment.APP_URL = "http://${lan.hs.ip}:${toString hubPort}";
 
   services.beszel.agent = lib.mkIf agentReady {
     enable = true;
@@ -61,9 +61,5 @@ in
   };
   boot.kernel.sysctl."kernel.perf_event_paranoid" = 2;
 
-  networking.firewall.extraInputRules = ''
-    ip saddr ${lan.v4} tcp dport ${toString hubPort} accept comment "Beszel from LAN (v4)"
-    ip6 saddr ${lan.v6} tcp dport ${toString hubPort} accept comment "Beszel from LAN (v6)"
-    iifname "wg0" ip saddr ${lan.vpn} tcp dport ${toString hubPort} accept comment "Beszel from VPN"
-  '';
+  homelab.lanTcpPorts = [ hubPort ];
 }
