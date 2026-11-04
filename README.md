@@ -20,7 +20,7 @@ hosts/<host>/
   secrets.nix                 which agenix secrets this host gets (laptop, hs)
 modules/nixos/
   base.nix                    every host: nix settings, bootloader, locale, agenix
-  workstation/                desktop + laptop: audio, fonts, printing, bluetooth, LanguageTool, user ado
+  workstation/                desktop + laptop: audio, fonts, printing, bluetooth, LanguageTool, Flatpak, user ado
   desktops/                   gnome.nix, hyprland.nix
   hardware/nvidia.nix         open driver by default, a host can set open = false
   gaming.nix                  Steam, Proton-GE, gamescope, Lutris, Prism Launcher
@@ -90,6 +90,20 @@ Editing or adding a secret:
    to the build.
 3. In `nixos-config`: `nix flake update mysecrets`, then reference the file in
    `hosts/<host>/secrets.nix` (or a module) and rebuild.
+
+## Flatpaks
+
+Flatpaks are managed with [nix-flatpak](https://github.com/gmodena/nix-flatpak) in
+`modules/nixos/workstation/flatpak.nix` (system-wide, Flathub remote).
+
+
+- Add an app: put its ID in `services.flatpak.packages`, e.g. `"com.obsproject.Studio"`.
+  For one machine only, set the same option in `hosts/<host>/configuration.nix`.
+- Rebuild (`nrs`). A systemd service installs the app in the background, so it can show up
+  a minute after the switch finishes: `systemctl status flatpak-managed-install`.
+- Apps update weekly on their own and are not pinned by `flake.lock`.
+- Anything installed by hand with `flatpak install` stays untouched, unless you enable
+  `uninstallUnmanaged`.
 
 ## Obsidian
 

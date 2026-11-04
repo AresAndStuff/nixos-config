@@ -19,6 +19,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+
     mysecrets = {
       # git+file only sees committed files: commit new .age files in the
       # secrets repo first, then run `nix flake update mysecrets`.

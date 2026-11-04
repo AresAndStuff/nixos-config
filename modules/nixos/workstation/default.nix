@@ -11,6 +11,7 @@
   imports = [
     ./bluetooth.nix
     ./languagetool.nix
+    ./flatpak.nix
   ];
 
   networking.networkmanager.enable = true;
