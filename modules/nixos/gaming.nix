@@ -22,6 +22,13 @@
 
   programs.gamemode.enable = true;
 
+  services.sunshine = {
+    enable = true;
+    autoStart = false;
+    capSysAdmin = true; # needed for KMS capture
+    openFirewall = true;
+  };
+
   environment.systemPackages = with pkgs; [
     mangohud
     protonup-qt # optional, for pulling GE versions Nixpkgs hasn't updated to yet
